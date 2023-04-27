@@ -1,13 +1,16 @@
-import type { Anime } from "../types/animes";
+import { Anime } from "../types/animes";
 
-export const Result = (props) => {
+interface ResultProps {
+  result: Anime[];
+}
 
-  
+export const Result = ({ result }: ResultProps) => {
+
   
   return (
     <>
           {/* map()=>{} 配列を順番に処理 */}
-          {props.result.animeList.map((list) => (
+          {result.map((list:Anime) => (
         <div key={list.id}>
           <p>
             画像：
