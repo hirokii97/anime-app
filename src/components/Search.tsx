@@ -1,17 +1,17 @@
-import { FC, SetStateAction, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import type { Anime } from "../types/animes";
 
-interface SearchProps {
+type Props = {
   // Dispatch は、useState フックの返り値である setState の型エイリアスであり、SetStateAction は setState に渡される値の型
   setValue: React.Dispatch<SetStateAction<Anime[]>>;
-}
+};
 
-export const Search: FC<SearchProps> = () => {
+export const Search = (props: Props) => {
   const [animeList, setAnimeList] = useState<Anime[]>([]); //アニメ情報をStateに設定
-  const [year, setYear] = useState<string | undefined>("2023"); //リリース年をStateに設定
-  const [season, setSeason] = useState<string | undefined>("spring"); //リリースシーズンをStateに設定
+  const [year, setYear] = useState<string | undefined>("all"); //リリース年をStateに設定
+  const [season, setSeason] = useState<string | undefined>("all"); //リリースシーズンをStateに設定
   const [title, setTitle] = useState<string | undefined>(""); //タイトルをStateに設定
-
+  const [filterSeason, setFilterSeason] = useState<string | undefined>("");
   //API送信
   const getData = async (year?: string, season?: string) => {
     const endpoint = "https://api.annict.com/v1/works"; //APIリンク
@@ -21,44 +21,67 @@ export const Search: FC<SearchProps> = () => {
     //fetch()→非同期通信を使ってリクエストとレスポンス取得を行う
     //パラメータ参照（https://developers.annict.com/docs/rest-api/v1/works）
     const res = await fetch(
-      `${endpoint}/?filter_season=${year}-${season}&${sort}&filter_title=${title}&access_token=${access_token}`
+      `${endpoint}/?filter_season=${filterSeason}&${sort}&filter_title=${title}&access_token=${access_token}`
     );
     const data = await res.json(); //json形式にする
     return data;
   };
 
   //APIで取得したデータをもとにリストを作成
-  const onSearch = async (props: SearchProps) => {
+  const onSearch = async () => {
     const data = await getData(year, season);
     setAnimeList(data.works);
-    props.setValue(animeList);
   };
 
+  useEffect(() => {
+    props.setValue(animeList);
+  }, [animeList]);
+
+  useEffect(() => {
+    const getFilterSeason = () => {
+      let value = "";
+
+      if (year !== "all" && season !== "all") {
+        value = `${year}-${season}`;
+        return value;
+      }
+      if (year !== "all") {
+        value = `${year}-${season}`;
+        return value;
+      }
+      return value;
+    };
+    setFilterSeason(getFilterSeason());
+  }, [year, season]);
+
   return (
-    <>
+    <div>
       <select
         name=""
         id=""
         value={year}
         onChange={(e) => setYear(e.target.value)}
       >
-        <option value="">全て</option>
+        <option value="all">全て</option>
         <option value="2020">2020年</option>
         <option value="2021">2021年</option>
         <option value="2022">2022年</option>
         <option value="2023">2023年</option>
       </select>
-      <select
-        name=""
-        id=""
-        value={season}
-        onChange={(e) => setSeason(e.target.value)}
-      >
-        <option value="spring">春</option>
-        <option value="summer">夏</option>
-        <option value="autumn">秋</option>
-        <option value="winter">冬</option>
-      </select>
+      {year !== "all" && (
+        <select
+          name=""
+          id=""
+          value={season}
+          onChange={(e) => setSeason(e.target.value)}
+        >
+          <option value="all">全て</option>
+          <option value="spring">春</option>
+          <option value="summer">夏</option>
+          <option value="autumn">秋</option>
+          <option value="winter">冬</option>
+        </select>
+      )}
       <input
         type="text"
         value={title}
@@ -66,6 +89,6 @@ export const Search: FC<SearchProps> = () => {
         autoComplete="on"
       />
       <button onClick={() => onSearch()}>検索</button>
-    </>
+    </div>
   );
 };

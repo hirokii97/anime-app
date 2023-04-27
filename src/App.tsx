@@ -5,6 +5,7 @@ import type { Anime } from "./types/animes";
 
 export const App = () => {
   const [value, setValue] = useState<Anime[]>([]);
+  console.log(value);
 
   return (
     <>
