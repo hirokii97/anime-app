@@ -2,14 +2,13 @@ import { SetStateAction, useEffect, useState } from "react";
 import type { Anime } from "../types/animes";
 
 type Props = {
-  // Dispatch は、useState フックの返り値である setState の型エイリアスであり、SetStateAction は setState に渡される値の型
   setValue: React.Dispatch<SetStateAction<Anime[]>>;
 };
 
 export const Search = (props: Props) => {
   const [animeList, setAnimeList] = useState<Anime[]>([]); //アニメ情報をStateに設定
-  const [year, setYear] = useState<string | undefined>("all"); //リリース年をStateに設定
-  const [season, setSeason] = useState<string | undefined>("all"); //リリースシーズンをStateに設定
+  const [year, setYear] = useState<string | undefined>("2022"); //リリース年をStateに設定
+  const [season, setSeason] = useState<string | undefined>("spring"); //リリースシーズンをStateに設定
   const [title, setTitle] = useState<string | undefined>(""); //タイトルをStateに設定
   const [filterSeason, setFilterSeason] = useState<string | undefined>("");
   //API送信
@@ -55,7 +54,7 @@ export const Search = (props: Props) => {
   }, [year, season]);
 
   return (
-    <div>
+    <section>
       <select
         name=""
         id=""
@@ -89,6 +88,15 @@ export const Search = (props: Props) => {
         autoComplete="on"
       />
       <button onClick={() => onSearch()}>検索</button>
-    </div>
+
+      <style jsx>
+        {`
+        section{
+          text-align:center;
+        }
+        `}
+      </style>
+
+    </section>
   );
 };
