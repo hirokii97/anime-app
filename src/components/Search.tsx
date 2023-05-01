@@ -5,24 +5,49 @@ type Props = {
   setValue: React.Dispatch<SetStateAction<Anime[]>>;
 };
 
+declare module 'react' {
+  //ReactのHTML要素の属性を拡張してstyle属性にjsxとglobalを追加した。
+  interface StyleHTMLAttributes<T> extends React.HTMLAttributes<T> {
+    jsx?: boolean;
+    global?: boolean;
+  }
+}
+
 export const Search = (props: Props) => {
-  const [animeList, setAnimeList] = useState<Anime[]>([]); //アニメ情報をStateに設定
-  const [year, setYear] = useState<string | undefined>("2022"); //リリース年をStateに設定
-  const [season, setSeason] = useState<string | undefined>("spring"); //リリースシーズンをStateに設定
-  const [title, setTitle] = useState<string | undefined>(""); //タイトルをStateに設定
+  //アニメ情報をStateに設定
+  const [animeList, setAnimeList] = useState<Anime[]>([]);
+
+  //リリース年をStateに設定
+  const [year, setYear] = useState<string | undefined>("2023");
+
+  //リリースシーズンをStateに設定
+  const [season, setSeason] = useState<string | undefined>("spring");
+
+  //タイトルをStateに設定
+  const [title, setTitle] = useState<string | undefined>("");
+
+  //API送信用の年、季節（filterSeason）をStateに設定
   const [filterSeason, setFilterSeason] = useState<string | undefined>("");
-  //API送信
+
+  //API送信・受信の関数
   const getData = async (year?: string, season?: string) => {
-    const endpoint = "https://api.annict.com/v1/works"; //APIリンク
-    const access_token = "UVol8sjtyTLqvvAtJTRageHvztFssfsdPG3AYAoPXHY"; //APIトークン
-    const sort = "sort_watchers_count=desc"; //ソート:人気順
+    //APIリンク
+    const endpoint = "https://api.annict.com/v1/works";
+
+    //APIトークン
+    const access_token = "UVol8sjtyTLqvvAtJTRageHvztFssfsdPG3AYAoPXHY";
+
+    //ソート:人気順
+    const sort = "sort_watchers_count=desc";
 
     //fetch()→非同期通信を使ってリクエストとレスポンス取得を行う
     //パラメータ参照（https://developers.annict.com/docs/rest-api/v1/works）
     const res = await fetch(
       `${endpoint}/?filter_season=${filterSeason}&${sort}&filter_title=${title}&access_token=${access_token}`
     );
-    const data = await res.json(); //json形式にする
+
+    //json形式にする
+    const data = await res.json();
     return data;
   };
 
@@ -74,7 +99,7 @@ export const Search = (props: Props) => {
           value={season}
           onChange={(e) => setSeason(e.target.value)}
         >
-          <option value="all">全て</option>
+          {/* <option value="all">全て</option> */}
           <option value="spring">春</option>
           <option value="summer">夏</option>
           <option value="autumn">秋</option>
@@ -91,12 +116,11 @@ export const Search = (props: Props) => {
 
       <style jsx>
         {`
-        section{
-          text-align:center;
-        }
+          section {
+            text-align: center;
+          }
         `}
       </style>
-
     </section>
   );
 };

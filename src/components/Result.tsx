@@ -1,7 +1,16 @@
 import { Anime } from "../types/animes";
 
-interface ResultProps {
+type ResultProps = {
   result: Anime[];
+}
+
+//既存のReactモジュールを開いて新しい型を追加する
+declare module 'react' {
+  //画像エラー処理の型付け
+  type EventTarget = {
+    onError:null;
+    src:string
+  }
 }
 
 export const Result = ({ result }: ResultProps) => {
