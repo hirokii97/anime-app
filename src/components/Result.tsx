@@ -1,16 +1,18 @@
 import { Anime } from "../types/animes";
+// import Cookies from 'js-cookie';
+import { FavoriteIcon } from "../components/FavoriteIcon";
 
 type ResultProps = {
   result: Anime[];
-}
+};
 
 //既存のReactモジュールを開いて新しい型を追加する
-declare module 'react' {
+declare module "react" {
   //画像エラー処理の型付け
   type EventTarget = {
-    onError:null;
-    src:string
-  }
+    onError: null;
+    src: string;
+  };
 }
 
 export const Result = ({ result }: ResultProps) => {
@@ -50,7 +52,7 @@ export const Result = ({ result }: ResultProps) => {
                 // 無限ループさせないためのnull設定
                 e.target.onError = null;
                 //　エラー時にno-img画像を指定
-                e.target.src = 'img/no-image.jpg'
+                e.target.src = "img/no-image.jpg";
               }}
             />
           </div>
@@ -60,16 +62,23 @@ export const Result = ({ result }: ResultProps) => {
             {/* <p>読み: {`${list.title_kana}`}</p> */}
             <p>リリース時期: {`${list.season_name_text}`}</p>
             <div className="result__detail-link">
-            <p>
-              <a className="result__detail-url"
-                href={`${list.official_site_url}`}
-              >公式URL</a>
-            </p>
-            <p>
-              <a className="result__detail-twitter"
-                href={`https://twitter.com/${list.twitter_username}`}
-              ><img src="./img/icon__result-detail_twitter.png" alt="" /></a>
-            </p>
+              <p>
+                <a
+                  className="result__detail-url"
+                  href={`${list.official_site_url}`}
+                >
+                  公式URL
+                </a>
+              </p>
+              <p>
+                <a
+                  className="result__detail-twitter"
+                  href={`https://twitter.com/${list.twitter_username}`}
+                >
+                  <img src="./img/icon__result-detail_twitter.png" alt="" />
+                </a>
+              </p>
+              <FavoriteIcon />
             </div>
           </div>
         </div>
@@ -100,13 +109,15 @@ export const Result = ({ result }: ResultProps) => {
             padding: 5px 10px;
           }
 
-          {/* タグ（TV・映画） */}
+           {
+            /* タグ（TV・映画） */
+          }
           .result__media {
             height: 20px;
             max-width: 35px;
             width: 100%;
             padding: 8px 10px;
-            border-radius:5px;
+            border-radius: 5px;
             background-color: skyblue;
             color: white;
             margin-left: 5px;
@@ -114,7 +125,9 @@ export const Result = ({ result }: ResultProps) => {
             flex: 1;
           }
 
-          {/* ウォッチ数、コメント数 */}
+           {
+            /* ウォッチ数、コメント数 */
+          }
           .c-icon {
             text-align: center;
             height: 50px;
@@ -125,8 +138,8 @@ export const Result = ({ result }: ResultProps) => {
             height: 25px;
           }
 
-          .c-icon-text{
-            font-size:14px;
+          .c-icon-text {
+            font-size: 14px;
           }
 
           .result__watchers_count.c-icon {
@@ -148,42 +161,40 @@ export const Result = ({ result }: ResultProps) => {
             text-align: center;
             max-width: 400px;
             max-height: 210px;
-            
           }
           .result__image img {
             max-width: 400px;
             max-height: 210px;
           }
 
-          .result__detail{
-            padding:0px 20px 5px;
+          .result__detail {
+            padding: 0px 20px 5px;
           }
-            
 
-          .result__detail-link{
-            display:flex;
+          .result__detail-link {
+            display: flex;
             justify-content: space-between;
-            height:60px;
+            height: 60px;
             align-items: center;
-            width:150px;
-            margin:0 auto;
-            
+            width: 200px;
+            margin: 0 auto;
           }
 
-          .result__detail-url{
+          .result__detail-url {
+            display: inline-block;
+            box-sizing: border-box;
+            height: 40px;
             border-radius: 10px;
-            padding: 10px 10px;
+            padding: 7px 10px;
             background-color: orange;
-            color: white; 
-            text-decoration:none;
-            
+            color: white;
+            text-decoration: none;
           }
 
-          .result__detail-twitter img{
-            width:40px;
-            height:40px;
+          .result__detail-twitter img {
+            width: 40px;
+            height: 40px;
           }
-
         `}
       </style>
     </section>
