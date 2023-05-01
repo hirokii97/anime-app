@@ -36,6 +36,13 @@ export const Result = ({ result }: ResultProps) => {
                 "img/no-image.jpg"
               }
               alt=""
+              //取得した画像がエラーの場合の処理
+              onError={(e) => {
+                // 無限ループさせないためのnull設定
+                e.target.onError = null;
+                //　エラー時にno-img画像を指定
+                e.target.src = 'img/no-image.jpg'
+              }}
             />
           </div>
           <div className="result__detail">
