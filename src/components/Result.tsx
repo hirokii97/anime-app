@@ -18,6 +18,11 @@ declare module "react" {
 export const Result = ({ result }: ResultProps) => {
   return (
     <section className="result__wrapper">
+      <h1>検索結果</h1>
+      <div className="result__wrapper">
+
+
+    
       {/* map()=>{} 配列を順番に処理 */}
       {result.map((list: Anime) => (
         <div className="result__box" key={list.id}>
@@ -83,6 +88,7 @@ export const Result = ({ result }: ResultProps) => {
           </div>
         </div>
       ))}
+      </div>
 
       {/* CSS(styled JSXを採用) */}
       <style jsx>

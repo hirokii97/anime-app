@@ -5,7 +5,7 @@ type Props = {
   setValue: React.Dispatch<SetStateAction<Anime[]>>;
 };
 
-declare module 'react' {
+declare module "react" {
   //ReactのHTML要素の属性を拡張してstyle属性にjsxとglobalを追加した。
   interface StyleHTMLAttributes<T> extends React.HTMLAttributes<T> {
     jsx?: boolean;

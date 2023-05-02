@@ -4,8 +4,10 @@ export const FavoriteIcon = () => {
   //「いいね」ボタン（favorite）の設定
   const [favorite, setFavorite] = useState(false);
 
-  const onClickFavorites = () => {
+  const onClickFavorites = (e:any) => {
     setFavorite(!favorite);
+    console.log(e);
+    
   };
 
   return (
