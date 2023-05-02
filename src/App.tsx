@@ -16,7 +16,9 @@ declare module "react" {
 
 export const App = () => {
   const [value, setValue] = useState<Anime[]>([]);
-  console.log(value);
+
+  const [ids, setIds] = useState<Anime[]>([]);
+  console.log(ids);
 
   return (
     <BrowserRouter>
@@ -28,10 +30,10 @@ export const App = () => {
         <Switch>
           <Route exact path='/search'>
             <Search setValue={setValue} />
-            <Result result={value} />
+            <Result result={value} setIds={setIds}/>
           </Route>
           <Route exact path="/favorite">
-            <Favorite />
+            <Favorite ids={ids} />
           </Route>
         </Switch>
 

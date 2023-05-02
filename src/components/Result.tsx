@@ -1,8 +1,9 @@
 import { Anime } from "../types/animes";
 // import Cookies from 'js-cookie';
-import { FavoriteIcon } from "../components/FavoriteIcon";
+// import { FavoriteIcon } from "../components/FavoriteIcon";
+import { useState } from "react";
 
-type ResultProps = {
+type Props = {
   result: Anime[];
 };
 
@@ -15,79 +16,136 @@ declare module "react" {
   };
 }
 
-export const Result = ({ result }: ResultProps) => {
+export const Result = (props : Props) => {
+
+  //「いいね」ボタン（favorite）の設定
+  const [favorites, setFavorites] = useState<Anime[]>([]);
+ 
+
+  const onClickFavorites = (id:any) => {
+    //お気に入り(favorite)にidが入っている場合
+    if (favorites.includes(id)) {
+      //お気に入りから削除（filterでidを除いた配列を再生成）
+      setFavorites(favorites.filter((favorites) => favorites !== id));
+      //お気に入りに追加（スプレット構文で配列に追加）
+    } else {
+      setFavorites([...favorites, id]);
+    }
+    console.log(id);
+    console.log(favorites);
+    props.setIds(favorites);
+  };
+
+  console.log(props.result);
+  
+
+
+
   return (
     <section className="result__wrapper">
       <h1>検索結果</h1>
       <div className="result__wrapper">
-
-
-    
-      {/* map()=>{} 配列を順番に処理 */}
-      {result.map((list: Anime) => (
-        <div className="result__box" key={list.id}>
-          <div className="result__menu">
-            <div className="result__media">{`${list.media_text}`}</div>
-            <div className="result__watchers_count c-icon">
+        {/* map()=>{} 配列を順番に処理 */}
+        {props.result.map((list: Anime) => (
+          <div className="result__box" key={list.id}>
+            <div className="result__menu">
+              <div className="result__media">{`${list.media_text}`}</div>
+              <div className="result__watchers_count c-icon">
+                <img
+                  src="./img/icon__result-watchers-count.png"
+                  alt="見てる ・ 見たい ・ 見た人の数"
+                />
+                <div className="c-icon-text">{`${list.watchers_count}`}</div>
+              </div>
+              <div className="result__reviews_count c-icon">
+                <img
+                  src="./img/icon__result-reviews-count.png"
+                  alt="レビュー数"
+                />
+                <div className="c-icon-text">{`${list.reviews_count}`}</div>
+              </div>
+            </div>
+            <div className="result__image">
               <img
-                src="./img/icon__result-watchers-count.png"
-                alt="見てる ・ 見たい ・ 見た人の数"
+                src={
+                  list.images.recommended_url ||
+                  list.images.facebook.og_image_url ||
+                  list.images.twitter.image_url ||
+                  "img/no-image.jpg"
+                }
+                alt=""
+                //取得した画像がエラーの場合の処理
+                onError={(e) => {
+                  // 無限ループさせないためのnull設定
+                  e.target.onError = null;
+                  //　エラー時にno-img画像を指定
+                  e.target.src = "img/no-image.jpg";
+                }}
               />
-              <div className="c-icon-text">{`${list.watchers_count}`}</div>
             </div>
-            <div className="result__reviews_count c-icon">
-              <img
-                src="./img/icon__result-reviews-count.png"
-                alt="レビュー数"
-              />
-              <div className="c-icon-text">{`${list.reviews_count}`}</div>
+            <div className="result__detail">
+              <p className="result__detail-title">【 {`${list.title}`} 】</p>
+              <p>エピソード数: {`${list.episodes_count}`}</p>
+              {/* <p>読み: {`${list.title_kana}`}</p> */}
+              <p>リリース時期: {`${list.season_name_text}`}</p>
+              <div className="result__detail-link">
+                <p>
+                  <a
+                    className="result__detail-url"
+                    href={`${list.official_site_url}`}
+                  >
+                    公式URL
+                  </a>
+                </p>
+                <p>
+                  <a
+                    className="result__detail-twitter"
+                    href={`https://twitter.com/${list.twitter_username}`}
+                  >
+                    <img src="./img/icon__result-detail_twitter.png" alt="" />
+                  </a>
+                </p>
+                {/* <FavoriteIcon /> */}
+                <div>
+                  <button
+                    onClick={(e) => {
+                      onClickFavorites(list.id);
+                    }}
+                    className="favorite_button"
+                  >
+                    <img
+                      src={
+                        favorites.includes(list.id)
+                          ? "img/icon_favorite-active.png"
+                          : "img/icon_favorite-no-active.png"
+                      }
+                      alt=""
+                    />
+                  </button>
+
+                  <style jsx>
+                    {`
+                      .favorite_button {
+                        width: 40px;
+                        height: 40px;
+                        padding: 0;
+                        background-color: transparent;
+                        border: none;
+                        padding-top: 3px;
+                      }
+                      .favorite_button img {
+                        display: flex;
+                        align-items: center;
+                        width: 20px;
+                        height: 20px;
+                      }
+                    `}
+                  </style>
+                </div>
+              </div>
             </div>
           </div>
-          <div className="result__image">
-            <img
-              src={
-                list.images.recommended_url ||
-                list.images.facebook.og_image_url ||
-                list.images.twitter.image_url ||
-                "img/no-image.jpg"
-              }
-              alt=""
-              //取得した画像がエラーの場合の処理
-              onError={(e) => {
-                // 無限ループさせないためのnull設定
-                e.target.onError = null;
-                //　エラー時にno-img画像を指定
-                e.target.src = "img/no-image.jpg";
-              }}
-            />
-          </div>
-          <div className="result__detail">
-            <p className="result__detail-title">【 {`${list.title}`} 】</p>
-            <p>エピソード数: {`${list.episodes_count}`}</p>
-            {/* <p>読み: {`${list.title_kana}`}</p> */}
-            <p>リリース時期: {`${list.season_name_text}`}</p>
-            <div className="result__detail-link">
-              <p>
-                <a
-                  className="result__detail-url"
-                  href={`${list.official_site_url}`}
-                >
-                  公式URL
-                </a>
-              </p>
-              <p>
-                <a
-                  className="result__detail-twitter"
-                  href={`https://twitter.com/${list.twitter_username}`}
-                >
-                  <img src="./img/icon__result-detail_twitter.png" alt="" />
-                </a>
-              </p>
-              <FavoriteIcon />
-            </div>
-          </div>
-        </div>
-      ))}
+        ))}
       </div>
 
       {/* CSS(styled JSXを採用) */}
