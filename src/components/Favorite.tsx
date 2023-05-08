@@ -1,6 +1,5 @@
 import { useState } from "react";
 import type { Anime } from "../types/animes";
-// import { FavoriteIcon } from "../components/FavoriteIcon";
 
 export const Favorite = (props: any) => {
   //お気に入り情報をStateに設定
@@ -30,7 +29,7 @@ export const Favorite = (props: any) => {
     //fetch()→非同期通信を使ってリクエストとレスポンス取得を行う
     //パラメータ参照（https://developers.annict.com/docs/rest-api/v1/works）
     const res = await fetch(
-      `${endpoint}/?filter_id=1,2,3&${sort}&access_token=${access_token}`
+      `${endpoint}/?filter_ids=${ids}&${sort}&access_token=${access_token}`
     );
 
     //json形式にする
