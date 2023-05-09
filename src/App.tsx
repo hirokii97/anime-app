@@ -19,19 +19,15 @@ export const App = () => {
   const [result, setResult] = useState<Anime[]>([]);
 
   const [favoriteIds, setFavoriteIds] = useState<number[]>([]);
-console.log(favoriteIds);
-
-
+  console.log(favoriteIds);
 
   //お気に入り情報をStateに設定
   const [favoriteList, setFavoriteList] = useState<Anime[]>([]);
-  
 
   // //String配列を生成する
 
   //カンマ区切り文字列に変換する
   const arrIds = favoriteIds.join(",");
-
 
   //API送信・受信の関数
   const getFavoriteData = async () => {
@@ -55,18 +51,20 @@ console.log(favoriteIds);
     return data;
   };
 
-  const onClickFavorites  = (id:any) => {
+  const onClickFavorites = (id: any) => {
     //お気に入り(favorite)にidが入っている場合
     if (favoriteIds.includes(id)) {
       //お気に入りから削除（filterでidを除いた配列を再生成）
-      setFavoriteIds(favoriteIds.filter((favoriteId:number) => favoriteId !== id));
+      setFavoriteIds(
+        favoriteIds.filter((favoriteId: number) => favoriteId !== id)
+      );
       //お気に入りに追加（スプレット構文で配列に追加）
     } else {
       setFavoriteIds([...favoriteIds, id]);
     }
     console.log(id);
   };
-  
+
   //APIで取得したデータをもとにリストを作成
   const getFavoriteList = async () => {
     const data = await getFavoriteData();
@@ -77,7 +75,9 @@ console.log(favoriteIds);
     <BrowserRouter>
       <main>
         <h1>アニメ検索サイト</h1>
-        <Link to={`/favorite/`} onClick={() => getFavoriteList()}>お気に入り</Link>
+        <Link to={`/favorite/`} onClick={() => getFavoriteList()}>
+          お気に入り
+        </Link>
         <Link to={`/search`}>検索</Link>
 
         <Routes>
@@ -86,13 +86,24 @@ console.log(favoriteIds);
             element={
               <>
                 <Search setResult={setResult} />
-                <Result result={result} favoriteIds={favoriteIds} setFavoriteIds={setFavoriteIds} onClickFavorites={onClickFavorites}/>
+                <Result
+                  result={result}
+                  favoriteIds={favoriteIds}
+                  setFavoriteIds={setFavoriteIds}
+                  onClickFavorites={onClickFavorites}
+                />
               </>
             }
           />
           <Route
             path="/favorite"
-            element={<Favorite favoriteList={favoriteList} favoriteIds={favoriteIds} onClickFavorites={onClickFavorites} />}
+            element={
+              <Favorite
+                favoriteList={favoriteList}
+                favoriteIds={favoriteIds}
+                onClickFavorites={onClickFavorites}
+              />
+            }
           />
         </Routes>
 

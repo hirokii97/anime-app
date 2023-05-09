@@ -1,9 +1,14 @@
 import type { Anime } from "../types/animes";
 
 export const Favorite = (props: any) => {
+
+console.log(props.favoriteIds.length);
+  
   return (
     <section className="result__wrapper">
       <h1>お気に入り</h1>
+      {
+        props.favoriteIds.length !== 0 ? (
       <div className="result__wrapper">
         {/* map()=>{} 配列を順番に処理 */}
         {props.favoriteList.map((list: Anime) => (
@@ -105,6 +110,12 @@ export const Favorite = (props: any) => {
           </div>
         ))}
       </div>
+      ) : (
+        <div>
+          お気に入りに登録してみよう！
+        </div>
+      ) 
+}
 
       {/* CSS(styled JSXを採用) */}
       <style jsx>
@@ -220,5 +231,6 @@ export const Favorite = (props: any) => {
         `}
       </style>
     </section>
+        
   );
 };

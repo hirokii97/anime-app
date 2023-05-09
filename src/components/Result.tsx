@@ -4,9 +4,9 @@ import { SetStateAction } from "react";
 
 type Props = {
   result: Anime[];
-  setFavoriteIds:React.Dispatch<SetStateAction<number[]>>;
-  onClickFavorites:React.Dispatch<SetStateAction<Anime[]>>;
-  favoriteIds:number[];
+  setFavoriteIds: React.Dispatch<SetStateAction<number[]>>;
+  onClickFavorites: React.Dispatch<number>;
+  favoriteIds: number[];
 };
 
 //既存のReactモジュールを開いて新しい型を追加する
@@ -18,12 +18,9 @@ declare module "react" {
   };
 }
 
-export const Result = (props : Props) => {
-
+export const Result = (props: Props) => {
   //「いいね」ボタン（favorite）の設定
-  const { favoriteIds , result , onClickFavorites} = props;
-  
-
+  const { favoriteIds, result, onClickFavorites } = props;
 
   return (
     <section className="result__wrapper">
