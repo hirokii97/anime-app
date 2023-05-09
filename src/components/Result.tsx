@@ -1,10 +1,11 @@
 import { Anime } from "../types/animes";
 // import Cookies from 'js-cookie';
-// import { FavoriteIcon } from "../components/FavoriteIcon";
-import { useState } from "react";
+import { SetStateAction } from "react";
 
 type Props = {
   result: Anime[];
+  setFavoriteIds:React.Dispatch<SetStateAction<number[]>>;
+  favoriteIds:number[];
 };
 
 //既存のReactモジュールを開いて新しい型を追加する
@@ -19,24 +20,20 @@ declare module "react" {
 export const Result = (props : Props) => {
 
   //「いいね」ボタン（favorite）の設定
-  const [favorites, setFavorites] = useState<Anime[]>([]);
+  const {setFavoriteIds , favoriteIds , result} = props;
  
 
   const onClickFavorites = (id:any) => {
     //お気に入り(favorite)にidが入っている場合
-    if (favorites.includes(id)) {
+    if (favoriteIds.includes(id)) {
       //お気に入りから削除（filterでidを除いた配列を再生成）
-      setFavorites(favorites.filter((favorites) => favorites !== id));
+      setFavoriteIds(favoriteIds.filter((favoriteId:number) => favoriteId !== id));
       //お気に入りに追加（スプレット構文で配列に追加）
     } else {
-      setFavorites([...favorites, id]);
+      setFavoriteIds([...favoriteIds, id]);
     }
     console.log(id);
-    console.log(favorites);
-    props.setIds(favorites);
   };
-
-  console.log(props.result);
   
 
 
@@ -46,7 +43,7 @@ export const Result = (props : Props) => {
       <h1>検索結果</h1>
       <div className="result__wrapper">
         {/* map()=>{} 配列を順番に処理 */}
-        {props.result.map((list: Anime) => (
+        {result.map((list: Anime) => (
           <div className="result__box" key={list.id}>
             <div className="result__menu">
               <div className="result__media">{`${list.media_text}`}</div>
@@ -105,7 +102,6 @@ export const Result = (props : Props) => {
                     <img src="./img/icon__result-detail_twitter.png" alt="" />
                   </a>
                 </p>
-                {/* <FavoriteIcon /> */}
                 <div>
                   <button
                     onClick={(e) => {
@@ -115,7 +111,7 @@ export const Result = (props : Props) => {
                   >
                     <img
                       src={
-                        favorites.includes(list.id)
+                        favoriteIds.includes(list.id)
                           ? "img/icon_favorite-active.png"
                           : "img/icon_favorite-no-active.png"
                       }

@@ -1,58 +1,12 @@
-import { useState } from "react";
 import type { Anime } from "../types/animes";
 
 export const Favorite = (props: any) => {
-  //お気に入り情報をStateに設定
-  const [favoriteList, setFavoriteList] = useState<Anime[]>([]);
-  console.log(props.ids);
-
-  //String配列を生成する
-  const arrIds = props.ids;
-  // console.log(arrIds);
-  
-  
-  //カンマ区切り文字列に変換する
-  const ids = arrIds.join(",");
-  console.log(ids);
-  
-  //API送信・受信の関数
-  const getData = async () => {
-    //APIリンク
-    const endpoint = "https://api.annict.com/v1/works";
-
-    //APIトークン
-    const access_token = "UVol8sjtyTLqvvAtJTRageHvztFssfsdPG3AYAoPXHY";
-
-    //ソート:人気順
-    const sort = "sort_watchers_count=desc";
-
-    //fetch()→非同期通信を使ってリクエストとレスポンス取得を行う
-    //パラメータ参照（https://developers.annict.com/docs/rest-api/v1/works）
-    const res = await fetch(
-      `${endpoint}/?filter_ids=${ids}&${sort}&access_token=${access_token}`
-    );
-
-    //json形式にする
-    const data = await res.json();
-    return data;
-  };
-
-  //APIで取得したデータをもとにリストを作成
-
-  const onShow = async () => {
-    const data = await getData();
-    setFavoriteList(data.works);
-  };
-
-  //画面表示時に実行
-  window.onload = onShow;
-
   return (
     <section className="result__wrapper">
       <h1>お気に入り</h1>
       <div className="result__wrapper">
         {/* map()=>{} 配列を順番に処理 */}
-        {favoriteList.map((list: Anime) => (
+        {props.favoriteList.map((list: Anime) => (
           <div className="result__box" key={list.id}>
             <div className="result__menu">
               <div className="result__media">{`${list.media_text}`}</div>
