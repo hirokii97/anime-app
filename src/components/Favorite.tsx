@@ -64,6 +64,42 @@ export const Favorite = (props: any) => {
                     <img src="../img/icon__result-detail_twitter.png" alt="" />
                   </a>
                 </p>
+                <div>
+                  <button
+                    onClick={(e) => {
+                      props.onClickFavorites(list.id);
+                    }}
+                    className="favorite_button"
+                  >
+                    <img
+                      src={
+                        props.favoriteIds.includes(list.id)
+                          ? "../img/icon_favorite-active.png"
+                          : "../img/icon_favorite-no-active.png"
+                      }
+                      alt=""
+                    />
+                  </button>
+
+                  <style jsx>
+                    {`
+                      .favorite_button {
+                        width: 40px;
+                        height: 40px;
+                        padding: 0;
+                        background-color: transparent;
+                        border: none;
+                        padding-top: 3px;
+                      }
+                      .favorite_button img {
+                        display: flex;
+                        align-items: center;
+                        width: 20px;
+                        height: 20px;
+                      }
+                    `}
+                  </style>
+                </div>
               </div>
             </div>
           </div>

@@ -5,6 +5,7 @@ import { SetStateAction } from "react";
 type Props = {
   result: Anime[];
   setFavoriteIds:React.Dispatch<SetStateAction<number[]>>;
+  onClickFavorites:React.Dispatch<SetStateAction<Anime[]>>;
   favoriteIds:number[];
 };
 
@@ -20,22 +21,8 @@ declare module "react" {
 export const Result = (props : Props) => {
 
   //「いいね」ボタン（favorite）の設定
-  const {setFavoriteIds , favoriteIds , result} = props;
- 
-
-  const onClickFavorites = (id:any) => {
-    //お気に入り(favorite)にidが入っている場合
-    if (favoriteIds.includes(id)) {
-      //お気に入りから削除（filterでidを除いた配列を再生成）
-      setFavoriteIds(favoriteIds.filter((favoriteId:number) => favoriteId !== id));
-      //お気に入りに追加（スプレット構文で配列に追加）
-    } else {
-      setFavoriteIds([...favoriteIds, id]);
-    }
-    console.log(id);
-  };
+  const { favoriteIds , result , onClickFavorites} = props;
   
-
 
 
   return (
@@ -83,7 +70,6 @@ export const Result = (props : Props) => {
             <div className="result__detail">
               <p className="result__detail-title">【 {`${list.title}`} 】</p>
               <p>エピソード数: {`${list.episodes_count}`}</p>
-              {/* <p>読み: {`${list.title_kana}`}</p> */}
               <p>リリース時期: {`${list.season_name_text}`}</p>
               <div className="result__detail-link">
                 <p>

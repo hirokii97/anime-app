@@ -54,6 +54,18 @@ console.log(favoriteIds);
     const data = await res.json();
     return data;
   };
+
+  const onClickFavorites  = (id:any) => {
+    //お気に入り(favorite)にidが入っている場合
+    if (favoriteIds.includes(id)) {
+      //お気に入りから削除（filterでidを除いた配列を再生成）
+      setFavoriteIds(favoriteIds.filter((favoriteId:number) => favoriteId !== id));
+      //お気に入りに追加（スプレット構文で配列に追加）
+    } else {
+      setFavoriteIds([...favoriteIds, id]);
+    }
+    console.log(id);
+  };
   
   //APIで取得したデータをもとにリストを作成
   const getFavoriteList = async () => {
@@ -74,13 +86,13 @@ console.log(favoriteIds);
             element={
               <>
                 <Search setResult={setResult} />
-                <Result result={result} favoriteIds={favoriteIds} setFavoriteIds={setFavoriteIds} />
+                <Result result={result} favoriteIds={favoriteIds} setFavoriteIds={setFavoriteIds} onClickFavorites={onClickFavorites}/>
               </>
             }
           />
           <Route
             path="/favorite"
-            element={<Favorite favoriteList={favoriteList} />}
+            element={<Favorite favoriteList={favoriteList} favoriteIds={favoriteIds} onClickFavorites={onClickFavorites} />}
           />
         </Routes>
 
