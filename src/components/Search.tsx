@@ -2,10 +2,10 @@ import { SetStateAction, useEffect, useState } from "react";
 import type { Anime } from "../types/animes";
 
 type Props = {
-  setValue: React.Dispatch<SetStateAction<Anime[]>>;
+  setResult: React.Dispatch<SetStateAction<Anime[]>>;
 };
 
-declare module 'react' {
+declare module "react" {
   //ReactのHTML要素の属性を拡張してstyle属性にjsxとglobalを追加した。
   interface StyleHTMLAttributes<T> extends React.HTMLAttributes<T> {
     jsx?: boolean;
@@ -58,7 +58,7 @@ export const Search = (props: Props) => {
   };
 
   useEffect(() => {
-    props.setValue(animeList);
+    props.setResult(animeList);
   }, [animeList]);
 
   useEffect(() => {

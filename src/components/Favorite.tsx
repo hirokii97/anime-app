@@ -1,46 +1,30 @@
-import { Anime } from "../types/animes";
-// import Cookies from 'js-cookie';
-import { SetStateAction } from "react";
+import type { Anime } from "../types/animes";
 
-type Props = {
-  result: Anime[];
-  setFavoriteIds: React.Dispatch<SetStateAction<number[]>>;
-  onClickFavorites: React.Dispatch<number>;
-  favoriteIds: number[];
-};
+export const Favorite = (props: any) => {
 
-//既存のReactモジュールを開いて新しい型を追加する
-declare module "react" {
-  //画像エラー処理の型付け
-  type EventTarget = {
-    onError: null;
-    src: string;
-  };
-}
-
-export const Result = (props: Props) => {
-  //「いいね」ボタン（favorite）の設定
-  const { favoriteIds, result, onClickFavorites } = props;
-
+console.log(props.favoriteIds.length);
+  
   return (
     <section className="result__wrapper">
-      <h1>検索結果</h1>
+      <h1>お気に入り</h1>
+      {
+        props.favoriteIds.length !== 0 ? (
       <div className="result__wrapper">
         {/* map()=>{} 配列を順番に処理 */}
-        {result.map((list: Anime) => (
+        {props.favoriteList.map((list: Anime) => (
           <div className="result__box" key={list.id}>
             <div className="result__menu">
               <div className="result__media">{`${list.media_text}`}</div>
               <div className="result__watchers_count c-icon">
                 <img
-                  src="./img/icon__result-watchers-count.png"
+                  src="../img/icon__result-watchers-count.png"
                   alt="見てる ・ 見たい ・ 見た人の数"
                 />
                 <div className="c-icon-text">{`${list.watchers_count}`}</div>
               </div>
               <div className="result__reviews_count c-icon">
                 <img
-                  src="./img/icon__result-reviews-count.png"
+                  src="../img/icon__result-reviews-count.png"
                   alt="レビュー数"
                 />
                 <div className="c-icon-text">{`${list.reviews_count}`}</div>
@@ -52,7 +36,7 @@ export const Result = (props: Props) => {
                   list.images.recommended_url ||
                   list.images.facebook.og_image_url ||
                   list.images.twitter.image_url ||
-                  "img/no-image.jpg"
+                  "../img/no-image.jpg"
                 }
                 alt=""
                 //取得した画像がエラーの場合の処理
@@ -82,21 +66,21 @@ export const Result = (props: Props) => {
                     className="result__detail-twitter"
                     href={`https://twitter.com/${list.twitter_username}`}
                   >
-                    <img src="./img/icon__result-detail_twitter.png" alt="" />
+                    <img src="../img/icon__result-detail_twitter.png" alt="" />
                   </a>
                 </p>
                 <div>
                   <button
                     onClick={(e) => {
-                      onClickFavorites(list.id);
+                      props.onClickFavorites(list.id);
                     }}
                     className="favorite_button"
                   >
                     <img
                       src={
-                        favoriteIds.includes(list.id)
-                          ? "img/icon_favorite-active.png"
-                          : "img/icon_favorite-no-active.png"
+                        props.favoriteIds.includes(list.id)
+                          ? "../img/icon_favorite-active.png"
+                          : "../img/icon_favorite-no-active.png"
                       }
                       alt=""
                     />
@@ -126,6 +110,12 @@ export const Result = (props: Props) => {
           </div>
         ))}
       </div>
+      ) : (
+        <div>
+          お気に入りに登録してみよう！
+        </div>
+      ) 
+}
 
       {/* CSS(styled JSXを採用) */}
       <style jsx>
@@ -241,5 +231,6 @@ export const Result = (props: Props) => {
         `}
       </style>
     </section>
+        
   );
 };
