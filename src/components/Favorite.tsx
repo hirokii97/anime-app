@@ -12,14 +12,14 @@ export const Favorite = (props: any) => {
               <div className="result__media">{`${list.media_text}`}</div>
               <div className="result__watchers_count c-icon">
                 <img
-                  src="./img/icon__result-watchers-count.png"
+                  src="../img/icon__result-watchers-count.png"
                   alt="見てる ・ 見たい ・ 見た人の数"
                 />
                 <div className="c-icon-text">{`${list.watchers_count}`}</div>
               </div>
               <div className="result__reviews_count c-icon">
                 <img
-                  src="./img/icon__result-reviews-count.png"
+                  src="../img/icon__result-reviews-count.png"
                   alt="レビュー数"
                 />
                 <div className="c-icon-text">{`${list.reviews_count}`}</div>
@@ -31,7 +31,7 @@ export const Favorite = (props: any) => {
                   list.images.recommended_url ||
                   list.images.facebook.og_image_url ||
                   list.images.twitter.image_url ||
-                  "img/no-image.jpg"
+                  "../img/no-image.jpg"
                 }
                 alt=""
                 //取得した画像がエラーの場合の処理
@@ -46,7 +46,6 @@ export const Favorite = (props: any) => {
             <div className="result__detail">
               <p className="result__detail-title">【 {`${list.title}`} 】</p>
               <p>エピソード数: {`${list.episodes_count}`}</p>
-              {/* <p>読み: {`${list.title_kana}`}</p> */}
               <p>リリース時期: {`${list.season_name_text}`}</p>
               <div className="result__detail-link">
                 <p>
@@ -62,10 +61,9 @@ export const Favorite = (props: any) => {
                     className="result__detail-twitter"
                     href={`https://twitter.com/${list.twitter_username}`}
                   >
-                    <img src="./img/icon__result-detail_twitter.png" alt="" />
+                    <img src="../img/icon__result-detail_twitter.png" alt="" />
                   </a>
                 </p>
-                {/* <FavoriteIcon /> */}
               </div>
             </div>
           </div>
