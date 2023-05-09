@@ -1,128 +1,129 @@
 import type { Anime } from "../types/animes";
 
 export const Favorite = (props: any) => {
+  console.log(props.favoriteIds.length);
 
-console.log(props.favoriteIds.length);
-  
   return (
-    <section className="result__wrapper">
+    <section>
       <h1>お気に入り</h1>
-      {
-        props.favoriteIds.length !== 0 ? (
-      <div className="result__wrapper">
-        {/* map()=>{} 配列を順番に処理 */}
-        {props.favoriteList.map((list: Anime) => (
-          <div className="result__box" key={list.id}>
-            <div className="result__menu">
-              <div className="result__media">{`${list.media_text}`}</div>
-              <div className="result__watchers_count c-icon">
-                <img
-                  src="../img/icon__result-watchers-count.png"
-                  alt="見てる ・ 見たい ・ 見た人の数"
-                />
-                <div className="c-icon-text">{`${list.watchers_count}`}</div>
+      {props.favoriteIds.length !== 0 ? (
+        <div className="result__wrapper">
+          {/* map()=>{} 配列を順番に処理 */}
+          {props.favoriteList.map((list: Anime) => (
+            <div className="result__box" key={list.id}>
+              <div className="result__menu">
+                <div className="result__media">{`${list.media_text}`}</div>
+                <div className="result__watchers_count c-icon">
+                  <img
+                    src="../img/icon__result-watchers-count.png"
+                    alt="見てる ・ 見たい ・ 見た人の数"
+                  />
+                  <div className="c-icon-text">{`${list.watchers_count}`}</div>
+                </div>
+                <div className="result__reviews_count c-icon">
+                  <img
+                    src="../img/icon__result-reviews-count.png"
+                    alt="レビュー数"
+                  />
+                  <div className="c-icon-text">{`${list.reviews_count}`}</div>
+                </div>
               </div>
-              <div className="result__reviews_count c-icon">
+              <div className="result__image">
                 <img
-                  src="../img/icon__result-reviews-count.png"
-                  alt="レビュー数"
+                  src={
+                    list.images.recommended_url ||
+                    list.images.facebook.og_image_url ||
+                    list.images.twitter.image_url ||
+                    "../img/no-image.jpg"
+                  }
+                  alt=""
+                  //取得した画像がエラーの場合の処理
+                  onError={(e) => {
+                    // 無限ループさせないためのnull設定
+                    e.target.onError = null;
+                    //　エラー時にno-img画像を指定
+                    e.target.src = "img/no-image.jpg";
+                  }}
                 />
-                <div className="c-icon-text">{`${list.reviews_count}`}</div>
               </div>
-            </div>
-            <div className="result__image">
-              <img
-                src={
-                  list.images.recommended_url ||
-                  list.images.facebook.og_image_url ||
-                  list.images.twitter.image_url ||
-                  "../img/no-image.jpg"
-                }
-                alt=""
-                //取得した画像がエラーの場合の処理
-                onError={(e) => {
-                  // 無限ループさせないためのnull設定
-                  e.target.onError = null;
-                  //　エラー時にno-img画像を指定
-                  e.target.src = "img/no-image.jpg";
-                }}
-              />
-            </div>
-            <div className="result__detail">
-              <p className="result__detail-title">【 {`${list.title}`} 】</p>
-              <p>エピソード数: {`${list.episodes_count}`}</p>
-              <p>リリース時期: {`${list.season_name_text}`}</p>
-              <div className="result__detail-link">
-                <p>
-                  <a
-                    className="result__detail-url"
-                    href={`${list.official_site_url}`}
-                  >
-                    公式URL
-                  </a>
-                </p>
-                <p>
-                  <a
-                    className="result__detail-twitter"
-                    href={`https://twitter.com/${list.twitter_username}`}
-                  >
-                    <img src="../img/icon__result-detail_twitter.png" alt="" />
-                  </a>
-                </p>
-                <div>
-                  <button
-                    onClick={(e) => {
-                      props.onClickFavorites(list.id);
-                    }}
-                    className="favorite_button"
-                  >
-                    <img
-                      src={
-                        props.favoriteIds.includes(list.id)
-                          ? "../img/icon_favorite-active.png"
-                          : "../img/icon_favorite-no-active.png"
-                      }
-                      alt=""
-                    />
-                  </button>
+              <div className="result__detail">
+                <p className="result__detail-title">【 {`${list.title}`} 】</p>
+                <p>エピソード数: {`${list.episodes_count}`}</p>
+                <p>リリース時期: {`${list.season_name_text}`}</p>
+                <div className="result__detail-link">
+                  <p>
+                    <a
+                      className="result__detail-url"
+                      href={`${list.official_site_url}`}
+                    >
+                      公式URL
+                    </a>
+                  </p>
+                  <p>
+                    <a
+                      className="result__detail-twitter"
+                      href={`https://twitter.com/${list.twitter_username}`}
+                    >
+                      <img
+                        src="../img/icon__result-detail_twitter.png"
+                        alt=""
+                      />
+                    </a>
+                  </p>
+                  <div>
+                    <button
+                      onClick={(e) => {
+                        props.onClickFavorites(list.id);
+                      }}
+                      className="favorite_button"
+                    >
+                      <img
+                        src={
+                          props.favoriteIds.includes(list.id)
+                            ? "../img/icon_favorite-active.png"
+                            : "../img/icon_favorite-no-active.png"
+                        }
+                        alt=""
+                      />
+                    </button>
 
-                  <style jsx>
-                    {`
-                      .favorite_button {
-                        width: 40px;
-                        height: 40px;
-                        padding: 0;
-                        background-color: transparent;
-                        border: none;
-                        padding-top: 3px;
-                      }
-                      .favorite_button img {
-                        display: flex;
-                        align-items: center;
-                        width: 20px;
-                        height: 20px;
-                      }
-                    `}
-                  </style>
+                    <style jsx>
+                      {`
+                        .favorite_button {
+                          width: 40px;
+                          height: 40px;
+                          padding: 0;
+                          background-color: transparent;
+                          border: none;
+                          padding-top: 3px;
+                        }
+                        .favorite_button img {
+                          display: flex;
+                          align-items: center;
+                          width: 20px;
+                          height: 20px;
+                        }
+                      `}
+                    </style>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
-      ) : (
-        <div>
-          お気に入りに登録してみよう！
+          ))}
         </div>
-      ) 
-}
+      ) : (
+        <div className="no-favorite">お気に入りに登録してみよう！</div>
+      )}
 
       {/* CSS(styled JSXを採用) */}
       <style jsx>
         {`
+          h1 {
+            line-height: 30px;
+          }
           .result__wrapper {
             max-width: 1280px;
-            margin: 60px auto;
+            margin: 10px auto;
             display: flex;
             justify-content: space-around;
             flex-wrap: wrap;
@@ -151,7 +152,7 @@ console.log(props.favoriteIds.length);
             width: 100%;
             padding: 8px 10px;
             border-radius: 5px;
-            background-color: skyblue;
+            background-color: #2589d0;
             color: white;
             margin-left: 5px;
             text-align: center;
@@ -178,6 +179,10 @@ console.log(props.favoriteIds.length);
           .result__watchers_count.c-icon {
             max-width: 50px;
             margin-left: 220px;
+          }
+
+          .result__box {
+            border-radius: 5px;
           }
 
           .result__box p {
@@ -228,9 +233,13 @@ console.log(props.favoriteIds.length);
             width: 40px;
             height: 40px;
           }
+
+          .no-favorite {
+            text-align: center;
+            margin: 50px 0px 0px 0px;
+          }
         `}
       </style>
     </section>
-        
   );
 };

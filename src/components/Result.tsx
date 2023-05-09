@@ -23,8 +23,7 @@ export const Result = (props: Props) => {
   const { favoriteIds, result, onClickFavorites } = props;
 
   return (
-    <section className="result__wrapper">
-      <h1>検索結果</h1>
+    <section>
       <div className="result__wrapper">
         {/* map()=>{} 配列を順番に処理 */}
         {result.map((list: Anime) => (
@@ -132,7 +131,7 @@ export const Result = (props: Props) => {
         {`
           .result__wrapper {
             max-width: 1280px;
-            margin: 60px auto;
+            margin: 10px auto;
             display: flex;
             justify-content: space-around;
             flex-wrap: wrap;
@@ -161,7 +160,7 @@ export const Result = (props: Props) => {
             width: 100%;
             padding: 8px 10px;
             border-radius: 5px;
-            background-color: skyblue;
+            background-color: #2589d0;
             color: white;
             margin-left: 5px;
             text-align: center;
@@ -192,6 +191,9 @@ export const Result = (props: Props) => {
 
           .result__box p {
             margin: 10px 0px 0px 0px;
+          }
+          .result__box {
+            border-radius: 5px;
           }
 
           .result__detail-title {

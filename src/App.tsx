@@ -75,10 +75,22 @@ export const App = () => {
     <BrowserRouter>
       <main>
         <h1>アニメ検索サイト</h1>
-        <Link to={`/favorite/`} onClick={() => getFavoriteList()}>
-          お気に入り
-        </Link>
-        <Link to={`/search`}>検索</Link>
+
+        <nav className="nav">
+          <Link
+            to={`/favorite/`}
+            className="favorite nav-item"
+            onClick={() => getFavoriteList()}
+          >
+            <img src="../img/icon_favorite-active.png" alt="" />
+            <p>お気に入り</p>
+          </Link>
+
+          <Link to={`/search`} className="search nav-item">
+            <img src="../img/search.png" alt="" />
+            <p>検索</p>
+          </Link>
+        </nav>
 
         <Routes>
           <Route
@@ -109,8 +121,46 @@ export const App = () => {
 
         <style jsx>
           {`
+            @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&display=swap");
+
+            body {
+              font-family: "Noto Sans JP", sans-serif;
+            }
+            main {
+              padding-bottom: 98px;
+            }
+
             h1 {
               text-align: center;
+            }
+
+            .nav {
+              display: flex;
+              position: fixed;
+              bottom: 0;
+              left: 0;
+              width: 100%;
+              border: 1px solid black;
+              box-sizing: border-box;
+              background-color: white;
+            }
+
+            .nav-item {
+              width: 50%;
+              height: 60px;
+              text-align: center;
+              text-decoration: none;
+              border: 1px solid black;
+              padding: 8px;
+            }
+
+            .nav-item img {
+              width: 36px;
+              height: 36px;
+            }
+            .nav-item p {
+              margin: 0;
+              color: black;
             }
           `}
         </style>
