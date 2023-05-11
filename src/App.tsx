@@ -4,7 +4,7 @@ import { Favorite } from "./components/Favorite";
 import { memo, useEffect, useState } from "react";
 import type { Anime } from "./types/animes";
 import { BrowserRouter, Link, Routes, Route } from "react-router-dom";
-// import Cookies from "js-cookie";
+import Cookies from "js-cookie";
 
 declare module "react" {
   //ReactのHTML要素の属性を拡張してstyle属性にjsxとglobalを追加した。
@@ -32,11 +32,13 @@ export const App = memo(() => {
       setFavoriteIds(
         favoriteIds.filter((favoriteId: number) => favoriteId !== id)
       );
+      return favoriteIds;
       //お気に入りに追加（スプレット構文で配列に追加）
     } else {
       setFavoriteIds([...favoriteIds, id]);
+      console.log(favoriteIds);
+      return;
     }
-    return;
   };
 
   //お気に入りに登録した情報を取得（API送信・受信の関数）
@@ -73,11 +75,21 @@ export const App = memo(() => {
   useEffect(() => {
     getFavoriteData();
     getFavoriteList();
+    //Cookiesに登録
+    Cookies.set("CookiesFavoriteIds", favoriteIds, { expires: 1 });
   }, [favoriteIds]);
 
-  // //Cookiesに登録
-  // Cookies.set("CookiesFavoriteIds", favoriteIds);
-  // const favoriteIdsData = Cookies.get("CookiesFavoriteIds");
+  if (Cookies.get("CookiesFavoriteIds")) {
+    const favoriteIdsData = Cookies.get("CookiesFavoriteIds");
+    console.log(favoriteIdsData);
+  }
+
+  //最初の一回だけSearchページへ遷移する
+  const loadFinished = () => {
+    let autoButtom = document.getElementsByClassName("search")[0] as HTMLElement;
+    autoButtom.click();
+  };
+  window.addEventListener("load", loadFinished, { once: true });
 
   return (
     <BrowserRouter>

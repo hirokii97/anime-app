@@ -2,6 +2,9 @@ import { memo } from "react";
 import type { Anime } from "../types/animes";
 
 export const Favorite = memo((props: any) => {
+
+  
+
   return (
     <section>
       <h1>お気に入り</h1>
