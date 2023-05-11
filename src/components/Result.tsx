@@ -1,11 +1,12 @@
 import { Anime } from "../types/animes";
 // import Cookies from 'js-cookie';
-import { SetStateAction } from "react";
+import { SetStateAction, memo } from "react";
 
 type Props = {
   result: Anime[];
   setFavoriteIds: React.Dispatch<SetStateAction<number[]>>;
   onClickFavorites: React.Dispatch<number>;
+  getFavoriteList: React.Dispatch<number>;
   favoriteIds: number[];
 };
 
@@ -18,9 +19,9 @@ declare module "react" {
   };
 }
 
-export const Result = (props: Props) => {
+export const Result = memo((props: Props) => {
   //「いいね」ボタン（favorite）の設定
-  const { favoriteIds, result, onClickFavorites } = props;
+  const { favoriteIds, result, onClickFavorites , getFavoriteList } = props;
 
   return (
     <section>
@@ -86,8 +87,9 @@ export const Result = (props: Props) => {
                 </p>
                 <div>
                   <button
-                    onClick={(e) => {
+                    onClick={() => {
                       onClickFavorites(list.id);
+                      getFavoriteList(list.id);
                     }}
                     className="favorite_button"
                   >
@@ -244,4 +246,4 @@ export const Result = (props: Props) => {
       </style>
     </section>
   );
-};
+});

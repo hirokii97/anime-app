@@ -1,10 +1,10 @@
 import { Search } from "./components/Search";
 import { Result } from "./components/Result";
 import { Favorite } from "./components/Favorite";
-import { useState } from "react";
+import { memo, useEffect, useState } from "react";
 import type { Anime } from "./types/animes";
-// react-router-domのインポートを追加
 import { BrowserRouter, Link, Routes, Route } from "react-router-dom";
+// import Cookies from "js-cookie";
 
 declare module "react" {
   //ReactのHTML要素の属性を拡張してstyle属性にjsxとglobalを追加した。
@@ -14,23 +14,35 @@ declare module "react" {
   }
 }
 
-export const App = () => {
+export const App = memo(() => {
   //検索した内容を’Search’から’Result’へ受け渡す
   const [result, setResult] = useState<Anime[]>([]);
 
   const [favoriteIds, setFavoriteIds] = useState<number[]>([]);
-  console.log(favoriteIds);
 
   //お気に入り情報をStateに設定
   const [favoriteList, setFavoriteList] = useState<Anime[]>([]);
 
-  // //String配列を生成する
+  //お気に入りに登録
+  const onClickFavorites = (id: any) => {
+    //お気に入り(favorite)にidが入っている場合
 
-  //カンマ区切り文字列に変換する
-  const arrIds = favoriteIds.join(",");
+    if (favoriteIds.includes(id)) {
+      //お気に入りから削除（filterでidを除いた配列を再生成）
+      setFavoriteIds(
+        favoriteIds.filter((favoriteId: number) => favoriteId !== id)
+      );
+      //お気に入りに追加（スプレット構文で配列に追加）
+    } else {
+      setFavoriteIds([...favoriteIds, id]);
+    }
+    return;
+  };
 
-  //API送信・受信の関数
+  //お気に入りに登録した情報を取得（API送信・受信の関数）
   const getFavoriteData = async () => {
+    const arrIds = favoriteIds.join(",");
+
     //APIリンク
     const endpoint = "https://api.annict.com/v1/works";
 
@@ -51,25 +63,21 @@ export const App = () => {
     return data;
   };
 
-  const onClickFavorites = (id: any) => {
-    //お気に入り(favorite)にidが入っている場合
-    if (favoriteIds.includes(id)) {
-      //お気に入りから削除（filterでidを除いた配列を再生成）
-      setFavoriteIds(
-        favoriteIds.filter((favoriteId: number) => favoriteId !== id)
-      );
-      //お気に入りに追加（スプレット構文で配列に追加）
-    } else {
-      setFavoriteIds([...favoriteIds, id]);
-    }
-    console.log(id);
-  };
-
-  //APIで取得したデータをもとにリストを作成
+  //お気に入りのリストを作成
   const getFavoriteList = async () => {
     const data = await getFavoriteData();
-    setFavoriteList(data.works);
+    const newFavoriteList = data;
+    setFavoriteList(newFavoriteList.works);
   };
+
+  useEffect(() => {
+    getFavoriteData();
+    getFavoriteList();
+  }, [favoriteIds]);
+
+  // //Cookiesに登録
+  // Cookies.set("CookiesFavoriteIds", favoriteIds);
+  // const favoriteIdsData = Cookies.get("CookiesFavoriteIds");
 
   return (
     <BrowserRouter>
@@ -80,7 +88,7 @@ export const App = () => {
           <Link
             to={`/favorite/`}
             className="favorite nav-item"
-            onClick={() => getFavoriteList()}
+            // onClick={() => getFavoriteList()}
           >
             <img src="../img/icon_favorite-active.png" alt="" />
             <p>お気に入り</p>
@@ -102,6 +110,7 @@ export const App = () => {
                   result={result}
                   favoriteIds={favoriteIds}
                   setFavoriteIds={setFavoriteIds}
+                  getFavoriteList={getFavoriteList}
                   onClickFavorites={onClickFavorites}
                 />
               </>
@@ -167,4 +176,4 @@ export const App = () => {
       </main>
     </BrowserRouter>
   );
-};
+});

@@ -1,5 +1,6 @@
-import { SetStateAction, useEffect, useState } from "react";
+import { SetStateAction, memo, useEffect, useState } from "react";
 import type { Anime } from "../types/animes";
+import { useLocation } from "react-router-dom";
 
 type Props = {
   setResult: React.Dispatch<SetStateAction<Anime[]>>;
@@ -13,7 +14,7 @@ declare module "react" {
   }
 }
 
-export const Search = (props: Props) => {
+export const Search = memo((props: Props) => {
   //アニメ情報をStateに設定
   const [animeList, setAnimeList] = useState<Anime[]>([]);
 
@@ -27,7 +28,9 @@ export const Search = (props: Props) => {
   const [title, setTitle] = useState<string | undefined>("");
 
   //API送信用の年、季節（filterSeason）をStateに設定
-  const [filterSeason, setFilterSeason] = useState<string | undefined>("");
+  const [filterSeason, setFilterSeason] = useState<string | undefined>(
+    "2023-spring"
+  );
 
   //API送信・受信の関数
   const getData = async (year?: string, season?: string) => {
@@ -56,6 +59,12 @@ export const Search = (props: Props) => {
     const data = await getData(year, season);
     setAnimeList(data.works);
   };
+
+  const location = useLocation();
+
+  useEffect(() => {
+    onSearch();
+  }, [location]);
 
   useEffect(() => {
     props.setResult(animeList);
@@ -111,7 +120,7 @@ export const Search = (props: Props) => {
         </label>
       )}
 
-      <form action="#" className="search-form-005">
+      <form action="" className="search-form-005">
         <label>
           <input
             type="text"
@@ -121,7 +130,7 @@ export const Search = (props: Props) => {
             placeholder="キーワードを入力"
           />
         </label>
-        <button onClick={() => onSearch()} aria-label="検索">
+        <button onClick={() => onSearch()} aria-label="検索" type="button">
           <img src="../img/search.png" alt="" />
         </button>
       </form>
@@ -221,12 +230,11 @@ export const Search = (props: Props) => {
           }
 
           .search-form-005 button img {
-            width:25px;
-            height:25px;
+            width: 25px;
+            height: 25px;
           }
-
         `}
       </style>
     </section>
   );
-};
+});

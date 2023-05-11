@@ -1,8 +1,7 @@
+import { memo } from "react";
 import type { Anime } from "../types/animes";
 
-export const Favorite = (props: any) => {
-  console.log(props.favoriteIds.length);
-
+export const Favorite = memo((props: any) => {
   return (
     <section>
       <h1>お気に入り</h1>
@@ -242,4 +241,4 @@ export const Favorite = (props: any) => {
       </style>
     </section>
   );
-};
+});
