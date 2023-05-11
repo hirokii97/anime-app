@@ -41,7 +41,7 @@ export const Favorite = memo((props: any) => {
                     // 無限ループさせないためのnull設定
                     e.target.onError = null;
                     //　エラー時にno-img画像を指定
-                    e.target.src = "img/no-image.jpg";
+                    e.target.src = "../img/no-image.jpg";
                   }}
                 />
               </div>
