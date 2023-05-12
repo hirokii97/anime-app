@@ -75,12 +75,14 @@ export const App = memo(() => {
   useEffect(() => {
     getFavoriteData();
     getFavoriteList();
-    //Cookiesに登録
-    Cookies.set("CookiesFavoriteIds", favoriteIds, { expires: 1 });
+    setCookie();
   }, [favoriteIds]);
-
-  if (Cookies.get("CookiesFavoriteIds")) {
-    const favoriteIdsData = Cookies.get("CookiesFavoriteIds");
+  
+  
+  //Cookiesに登録
+  const setCookie = () => {
+    Cookies.set("CookiesFavoriteIds", favoriteIds, { expires: 1 });
+    const favoriteIdsData = Cookies.get('CookiesFavoriteIds');
     console.log(favoriteIdsData);
   }
 
@@ -89,7 +91,26 @@ export const App = memo(() => {
     let autoButtom = document.getElementsByClassName("search")[0] as HTMLElement;
     autoButtom.click();
   };
-  window.addEventListener("load", loadFinished, { once: true });
+
+  //画面表示の時にcookieがあった場合に登録する
+  const loadCookie = () => {
+    if(Cookies.get("CookiesFavoriteIds")){
+      const favoriteIdsData = Cookies.get('CookiesFavoriteIds');
+      setFavoriteIds(favoriteIdsData);
+      console.log(favoriteIds);
+      return
+    } else {
+      console.log("no");
+      
+    }
+  }
+
+  const loadFunction = () => {
+    loadFinished();
+    loadCookie();
+  }
+
+  window.addEventListener("load", loadFunction , { once: true });
 
   return (
     <BrowserRouter>
