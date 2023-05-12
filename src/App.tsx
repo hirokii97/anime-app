@@ -4,7 +4,8 @@ import { Favorite } from "./components/Favorite";
 import { memo, useEffect, useState } from "react";
 import type { Anime } from "./types/animes";
 import { BrowserRouter, Link, Routes, Route } from "react-router-dom";
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
+import { useCookies } from "react-cookie";
 
 declare module "react" {
   //ReactのHTML要素の属性を拡張してstyle属性にjsxとglobalを追加した。
@@ -22,6 +23,9 @@ export const App = memo(() => {
 
   //お気に入り情報をStateに設定
   const [favoriteList, setFavoriteList] = useState<Anime[]>([]);
+
+  //react-cookieの設定
+  const [cookie, setCookie] = useCookies(["CookiesOfFavoriteIds"]);
 
   //お気に入りに登録
   const onClickFavorites = (id: any) => {
@@ -72,45 +76,41 @@ export const App = memo(() => {
     setFavoriteList(newFavoriteList.works);
   };
 
+  //react-cookiesに登録
+  const addCookie = () => {
+
+    setCookie("CookiesOfFavoriteIds", favoriteIds, {
+      path: "/",
+      maxAge: 2592000,
+    });
+  };
+
   useEffect(() => {
+    addCookie();
     getFavoriteData();
     getFavoriteList();
-    setCookie();
+
+    //お気に入りがゼロの場合はcookieを取得してfavoriteIdsに反映
+    if (favoriteIds.length === 0) {
+      const yourFavoriteIds = cookie.CookiesOfFavoriteIds;
+      setFavoriteIds(yourFavoriteIds);
+    }
   }, [favoriteIds]);
-  
-  
-  //Cookiesに登録
-  const setCookie = () => {
-    Cookies.set("CookiesFavoriteIds", favoriteIds, { expires: 1 });
-    const favoriteIdsData = Cookies.get('CookiesFavoriteIds');
-    console.log(favoriteIdsData);
-  }
 
   //最初の一回だけSearchページへ遷移する
-  const loadFinished = () => {
-    let autoButtom = document.getElementsByClassName("search")[0] as HTMLElement;
+  const moveToSearch = () => {
+    let autoButtom = document.getElementsByClassName(
+      "search"
+    )[0] as HTMLElement;
     autoButtom.click();
   };
 
-  //画面表示の時にcookieがあった場合に登録する
-  const loadCookie = () => {
-    if(Cookies.get("CookiesFavoriteIds")){
-      const favoriteIdsData = Cookies.get('CookiesFavoriteIds');
-      setFavoriteIds(favoriteIdsData);
-      console.log(favoriteIds);
-      return
-    } else {
-      console.log("no");
-      
-    }
-  }
 
   const loadFunction = () => {
-    loadFinished();
-    loadCookie();
-  }
+    moveToSearch();
+  };
 
-  window.addEventListener("load", loadFunction , { once: true });
+  window.addEventListener("load", loadFunction, { once: true });
 
   return (
     <BrowserRouter>
