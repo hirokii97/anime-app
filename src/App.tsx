@@ -1,7 +1,7 @@
 import { Search } from "./components/Search";
 import { Result } from "./components/Result";
 import { Favorite } from "./components/Favorite";
-import { memo, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import type { Anime } from "./types/animes";
 import { BrowserRouter, Link, Routes, Route } from "react-router-dom";
 // import Cookies from "js-cookie";
@@ -28,22 +28,29 @@ export const App = memo(() => {
   const [cookie, setCookie] = useCookies(["CookiesOfFavoriteIds"]);
 
   //お気に入りに登録
-  const onClickFavorites = (id: any) => {
-    //お気に入り(favorite)にidが入っている場合
+  const onClickFavorites = useCallback(
+    (id: any) => {
+      //再定義
 
-    if (favoriteIds.includes(id)) {
-      //お気に入りから削除（filterでidを除いた配列を再生成）
-      setFavoriteIds(
-        favoriteIds.filter((favoriteId: number) => favoriteId !== id)
-      );
-      return favoriteIds;
-      //お気に入りに追加（スプレット構文で配列に追加）
-    } else {
-      setFavoriteIds([...favoriteIds, id]);
-      console.log(favoriteIds);
-      return;
-    }
-  };
+      //お気に入り(favorite)にidが入っている場合
+      if (favoriteIds.includes(id)) {
+        //お気に入りから削除（filterでidを除いた配列を再生成）
+        setFavoriteIds(
+          favoriteIds.filter((favoriteId: number) => favoriteId !== id)
+        );
+        console.log("filterFavoriteIds", favoriteIds);
+
+        //お気に入りに追加（スプレット構文で配列に追加）
+      } else {
+        setFavoriteIds([...favoriteIds, id]);
+        console.log("setFavoriteIds", favoriteIds);
+      }
+      addCookie();
+
+      console.log("onClickFavorites", favoriteIds);
+    },
+    [favoriteIds]
+  );
 
   //お気に入りに登録した情報を取得（API送信・受信の関数）
   const getFavoriteData = async () => {
@@ -78,23 +85,29 @@ export const App = memo(() => {
 
   //react-cookiesに登録
   const addCookie = () => {
-
     setCookie("CookiesOfFavoriteIds", favoriteIds, {
       path: "/",
       maxAge: 2592000,
     });
+    const cookieTest = cookie.CookiesOfFavoriteIds;
+    console.log("addCookie", cookieTest);
   };
 
+  //loadCookieは入れない（ループが発生する）
   useEffect(() => {
-    addCookie();
-    getFavoriteData();
+    //favoriteIdsが変わるたびに新たにお気に入りリストを更新する（お気に入り画面からの削除も可能）
     getFavoriteList();
+  }, [favoriteIds]);
 
+  //修正候補
+  const loadCookie = useCallback(() => {
     //お気に入りがゼロの場合はcookieを取得してfavoriteIdsに反映
     if (favoriteIds.length === 0) {
-      const yourFavoriteIds = cookie.CookiesOfFavoriteIds;
-      setFavoriteIds(yourFavoriteIds);
+      const CookiesOfFavoriteIds = cookie.CookiesOfFavoriteIds;
+      setFavoriteIds(CookiesOfFavoriteIds);
+      console.log("loadCookie", CookiesOfFavoriteIds);
     }
+    return;
   }, [favoriteIds]);
 
   //最初の一回だけSearchページへ遷移する
@@ -105,12 +118,26 @@ export const App = memo(() => {
     autoButtom.click();
   };
 
-
-  const loadFunction = () => {
+  const firstLoadFunction = () => {
     moveToSearch();
+    loadCookie();
   };
 
-  window.addEventListener("load", loadFunction, { once: true });
+  window.addEventListener("load", firstLoadFunction, { once: true });
+
+  //修正前
+  // const moveToSearch = () => {
+  //   let autoButtom = document.getElementsByClassName(
+  //     "search"
+  //   )[0] as HTMLElement;
+  //   autoButtom.click();
+  // };
+
+  // const loadFunction = () => {
+  //   moveToSearch();
+  // };
+
+  // window.addEventListener("load", loadFunction, { once: true });
 
   return (
     <BrowserRouter>

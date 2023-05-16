@@ -3,7 +3,6 @@ import type { Anime } from "../types/animes";
 
 export const Favorite = memo((props: any) => {
 
-  
 
   return (
     <section>
