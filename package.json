@@ -18,7 +18,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "cross-env PUBLIC_URL=/anime-app react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
@@ -46,6 +46,7 @@
   "devDependencies": {
     "@types/js-cookie": "^3.0.3",
     "@types/react-router-dom": "^5.3.3",
+    "cross-env": "^7.0.3",
     "gh-pages": "^5.0.0"
   }
 }

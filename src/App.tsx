@@ -152,7 +152,7 @@ export const App = memo(() => {
 
         <nav className="nav">
           <Link
-            to={`/favorite/`}
+            to={`/anime-app/favorite/`}
             className="favorite nav-item"
             // onClick={() => getFavoriteList()}
           >
@@ -160,7 +160,7 @@ export const App = memo(() => {
             <p>お気に入り</p>
           </Link>
 
-          <Link to={`/search`} className="search nav-item">
+          <Link to={`/anime-app/search`} className="search nav-item">
             <img src="../img/search.png" alt="" />
             <p>検索</p>
           </Link>
@@ -168,7 +168,7 @@ export const App = memo(() => {
 
         <Routes>
           <Route
-            path="/search"
+            path="/anime-app/search"
             element={
               <>
                 <Search setResult={setResult} />
@@ -183,7 +183,7 @@ export const App = memo(() => {
             }
           />
           <Route
-            path="/favorite"
+            path="/anime-app/favorite"
             element={
               <Favorite
                 favoriteList={favoriteList}
