@@ -127,7 +127,7 @@ export const App = memo(() => {
       console.log("loadCookie", CookiesOfFavoriteIds);
     }
     return;
-  }, [favoriteIds]);
+  }, []);
 
   //画面遷移（最初の一回）だけSearchページへ遷移する
   const moveToSearch = () => {
