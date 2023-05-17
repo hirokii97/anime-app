@@ -1,9 +1,11 @@
-import { memo } from "react";
+import { memo, useEffect } from "react";
 import type { Anime } from "../types/animes";
 
 export const Favorite = memo((props: any) => {
 
-  
+  useEffect(()=> {
+    props.onClickFavorites()
+  },[])
 
   return (
     <section>

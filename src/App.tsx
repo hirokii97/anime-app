@@ -1,10 +1,10 @@
 import { Search } from "./components/Search";
 import { Result } from "./components/Result";
 import { Favorite } from "./components/Favorite";
-import { memo, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import type { Anime } from "./types/animes";
 import { BrowserRouter, Link, Routes, Route } from "react-router-dom";
-import Cookies from "js-cookie";
+import { useCookies } from "react-cookie";
 
 declare module "react" {
   //ReactのHTML要素の属性を拡張してstyle属性にjsxとglobalを追加した。
@@ -23,22 +23,43 @@ export const App = memo(() => {
   //お気に入り情報をStateに設定
   const [favoriteList, setFavoriteList] = useState<Anime[]>([]);
 
-  //お気に入りに登録
-  const onClickFavorites = (id: any) => {
-    //お気に入り(favorite)にidが入っている場合
+  //react-cookieの設定
+  const [cookie, setCookie] = useCookies(["CookiesOfFavoriteIds"]);
 
+  //ボタン押下時に「お気に入り」に登録
+  const onClickFavorites = (id: any) => {
+    //お気に入り削除用の配列を再定義（stateの更新は関数実行後のため、再定義　＋　filterでidを除いた配列を再生成）
+    const delateId = favoriteIds.filter(
+      (favoriteId: number) => favoriteId !== id
+    );
+    const cleanDelateId = delateId.filter((v) => v);
+
+    //お気に入り追加用の配列を再定義（stateの更新は関数実行後のため、再定義）
+    const addId = [...favoriteIds, id];
+    const cleanAddId = addId.filter((v) => v);
+
+    //お気に入り(favorite)にidが入っている場合
     if (favoriteIds.includes(id)) {
-      //お気に入りから削除（filterでidを除いた配列を再生成）
-      setFavoriteIds(
-        favoriteIds.filter((favoriteId: number) => favoriteId !== id)
-      );
-      return favoriteIds;
+      setFavoriteIds(cleanDelateId);
+
+      //デバック用
+      console.log("cleanDelateId", cleanDelateId);
+      console.log("filterFavoriteIds", favoriteIds);
+
+      addCookie(cleanDelateId);
+
       //お気に入りに追加（スプレット構文で配列に追加）
     } else {
-      setFavoriteIds([...favoriteIds, id]);
-      console.log(favoriteIds);
-      return;
+      setFavoriteIds(cleanAddId);
+
+      //デバック用
+      console.log("cleanAddId", cleanAddId);
+      console.log("setFavoriteIds", favoriteIds);
+
+      addCookie(cleanAddId);
     }
+    //デバック用
+    console.log("onClickFavorites", favoriteIds);
   };
 
   //お気に入りに登録した情報を取得（API送信・受信の関数）
@@ -72,45 +93,57 @@ export const App = memo(() => {
     setFavoriteList(newFavoriteList.works);
   };
 
-  useEffect(() => {
-    getFavoriteData();
-    getFavoriteList();
-    setCookie();
-  }, [favoriteIds]);
-  
-  
-  //Cookiesに登録
-  const setCookie = () => {
-    Cookies.set("CookiesFavoriteIds", favoriteIds, { expires: 1 });
-    const favoriteIdsData = Cookies.get('CookiesFavoriteIds');
-    console.log(favoriteIdsData);
-  }
+  //react-cookiesに登録
+  const addCookie = useCallback(
+    (ids: any) => {
+      const newFavoriteIds = [...ids];
+      console.log("newFavoriteIds", newFavoriteIds);
+      console.log("ids", ids);
 
-  //最初の一回だけSearchページへ遷移する
-  const loadFinished = () => {
-    let autoButtom = document.getElementsByClassName("search")[0] as HTMLElement;
+      setCookie("CookiesOfFavoriteIds", newFavoriteIds, {
+        path: "/",
+        maxAge: 2592000,
+      });
+      const cookieTest = cookie.CookiesOfFavoriteIds;
+      console.log("addCookie", cookieTest);
+      return;
+    },
+    [favoriteIds]
+  );
+
+  //loadCookieは入れない（ループが発生するため）
+  //favoriteIdsが変わるたびに新たにお気に入りリストを更新する。お気に入り画面からの削除も可能
+  useEffect(() => {
+    getFavoriteList();
+  }, [favoriteIds]);
+
+  //画面遷移時にcookie情報を取得
+  const loadCookie = useCallback(() => {
+    //お気に入りがゼロの場合はcookieを取得してfavoriteIdsに反映
+    if (favoriteIds.length === 0) {
+      const CookiesOfFavoriteIds = cookie.CookiesOfFavoriteIds;
+      setFavoriteIds(CookiesOfFavoriteIds);
+      //デバック用
+      console.log("loadCookie", CookiesOfFavoriteIds);
+    }
+    return;
+  }, []);
+
+  //画面遷移（最初の一回）だけSearchページへ遷移する
+  const moveToSearch = () => {
+    let autoButtom = document.getElementsByClassName(
+      "search"
+    )[0] as HTMLElement;
     autoButtom.click();
   };
 
-  //画面表示の時にcookieがあった場合に登録する
-  const loadCookie = () => {
-    if(Cookies.get("CookiesFavoriteIds")){
-      const favoriteIdsData = Cookies.get('CookiesFavoriteIds');
-      setFavoriteIds(favoriteIdsData);
-      console.log(favoriteIds);
-      return
-    } else {
-      console.log("no");
-      
-    }
-  }
-
-  const loadFunction = () => {
-    loadFinished();
+  //画面遷移（最初の一回）に実行する関数
+  const firstLoadFunction = () => {
+    moveToSearch();
     loadCookie();
-  }
+  };
 
-  window.addEventListener("load", loadFunction , { once: true });
+  window.addEventListener("load", firstLoadFunction, { once: true });
 
   return (
     <BrowserRouter>
