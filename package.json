@@ -24,7 +24,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
-  "homepage": "https://vf-harada.github.io/anime-app/",
+  "homepage": "./",
   "eslintConfig": {
     "extends": [
       "react-app",
