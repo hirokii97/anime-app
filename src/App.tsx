@@ -28,12 +28,13 @@ export const App = memo(() => {
 
   //ボタン押下時に「お気に入り」に登録
   const onClickFavorites = (id: any) => {
-    //お気に入りから削除（filterでidを除いた配列を再生成）
+    //お気に入り削除用の配列を再定義（stateの更新は関数実行後のため、再定義　＋　filterでidを除いた配列を再生成）
     const delateId = favoriteIds.filter(
       (favoriteId: number) => favoriteId !== id
     );
     const cleanDelateId = delateId.filter((v) => v);
 
+    //お気に入り追加用の配列を再定義（stateの更新は関数実行後のため、再定義）
     const addId = [...favoriteIds, id];
     const cleanAddId = addId.filter((v) => v);
 
@@ -41,16 +42,23 @@ export const App = memo(() => {
     if (favoriteIds.includes(id)) {
       setFavoriteIds(cleanDelateId);
 
+      //デバック用
       console.log("cleanDelateId", cleanDelateId);
       console.log("filterFavoriteIds", favoriteIds);
+
+      addCookie(cleanDelateId);
 
       //お気に入りに追加（スプレット構文で配列に追加）
     } else {
       setFavoriteIds(cleanAddId);
+
+      //デバック用
       console.log("cleanAddId", cleanAddId);
       console.log("setFavoriteIds", favoriteIds);
+
+      addCookie(cleanAddId);
     }
-    addCookie();
+    //デバック用
     console.log("onClickFavorites", favoriteIds);
   };
 
@@ -86,19 +94,26 @@ export const App = memo(() => {
   };
 
   //react-cookiesに登録
-  const addCookie = useCallback(() => {
-    setCookie("CookiesOfFavoriteIds", favoriteIds, {
-      path: "/",
-      maxAge: 2592000,
-    });
-    const cookieTest = cookie.CookiesOfFavoriteIds;
-    console.log("addCookie", cookieTest);
-    return;
-  }, [favoriteIds]);
+  const addCookie = useCallback(
+    (ids: any) => {
+      const newFavoriteIds = [...ids];
+      console.log("newFavoriteIds", newFavoriteIds);
+      console.log("ids", ids);
+
+      setCookie("CookiesOfFavoriteIds", newFavoriteIds, {
+        path: "/",
+        maxAge: 2592000,
+      });
+      const cookieTest = cookie.CookiesOfFavoriteIds;
+      console.log("addCookie", cookieTest);
+      return;
+    },
+    [favoriteIds]
+  );
 
   //loadCookieは入れない（ループが発生するため）
+  //favoriteIdsが変わるたびに新たにお気に入りリストを更新する。お気に入り画面からの削除も可能
   useEffect(() => {
-    //favoriteIdsが変わるたびに新たにお気に入りリストを更新する（お気に入り画面からの削除も可能）
     getFavoriteList();
   }, [favoriteIds]);
 
@@ -108,6 +123,7 @@ export const App = memo(() => {
     if (favoriteIds.length === 0) {
       const CookiesOfFavoriteIds = cookie.CookiesOfFavoriteIds;
       setFavoriteIds(CookiesOfFavoriteIds);
+      //デバック用
       console.log("loadCookie", CookiesOfFavoriteIds);
     }
     return;
