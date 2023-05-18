@@ -33,14 +33,14 @@ export const Result = memo((props: Props) => {
               <div className="result__media">{`${list.media_text}`}</div>
               <div className="result__watchers_count c-icon">
                 <img
-                  src="./img/icon__result-watchers-count.png"
+                  src="../img/icon__result-watchers-count.png"
                   alt="見てる ・ 見たい ・ 見た人の数"
                 />
                 <div className="c-icon-text">{`${list.watchers_count}`}</div>
               </div>
               <div className="result__reviews_count c-icon">
                 <img
-                  src="./img/icon__result-reviews-count.png"
+                  src="../img/icon__result-reviews-count.png"
                   alt="レビュー数"
                 />
                 <div className="c-icon-text">{`${list.reviews_count}`}</div>
@@ -52,7 +52,7 @@ export const Result = memo((props: Props) => {
                   list.images.recommended_url ||
                   list.images.facebook.og_image_url ||
                   list.images.twitter.image_url ||
-                  "img/no-image.jpg"
+                  "../img/no-image.jpg"
                 }
                 alt=""
                 //取得した画像がエラーの場合の処理
@@ -60,7 +60,8 @@ export const Result = memo((props: Props) => {
                   // 無限ループさせないためのnull設定
                   e.target.onError = null;
                   //　エラー時にno-img画像を指定
-                  e.target.src = "img/no-image.jpg";
+                  e.target.src = "../img/no-image.jpg";
+                  return;
                 }}
               />
             </div>
@@ -82,7 +83,7 @@ export const Result = memo((props: Props) => {
                     className="result__detail-twitter"
                     href={`https://twitter.com/${list.twitter_username}`}
                   >
-                    <img src="./img/icon__result-detail_twitter.png" alt="" />
+                    <img src="../img/icon__result-detail_twitter.png" alt="" />
                   </a>
                 </p>
                 <div>
@@ -96,8 +97,8 @@ export const Result = memo((props: Props) => {
                     <img
                       src={
                         favoriteIds.includes(list.id)
-                          ? "img/icon_favorite-active.png"
-                          : "img/icon_favorite-no-active.png"
+                          ? "../img/icon_favorite-active.png"
+                          : "../img/icon_favorite-no-active.png"
                       }
                       alt=""
                     />

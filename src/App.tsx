@@ -152,23 +152,29 @@ export const App = memo(() => {
 
         <nav className="nav">
           <Link
-            to={`${process.env.PUBLIC_URL}/favorite`}
+            to={`${process.env.PUBLIC_URL}/favorite/`}
             className="favorite nav-item"
             // onClick={() => getFavoriteList()}
           >
-            <img src="../img/icon_favorite-active.png" alt="" />
+            <img
+              src={`${process.env.PUBLIC_URL}/img/icon_favorite-active.png`}
+              alt=""
+            />
             <p>お気に入り</p>
           </Link>
 
-          <Link to={`${process.env.PUBLIC_URL}/search`} className="search nav-item">
-            <img src="../img/search.png" alt="" />
+          <Link
+            to={`${process.env.PUBLIC_URL}/search/`}
+            className="search nav-item"
+          >
+            <img src={`${process.env.PUBLIC_URL}/img/search.png`} alt="" />
             <p>検索</p>
           </Link>
         </nav>
 
         <Routes>
           <Route
-            path={`${process.env.PUBLIC_URL}/search`}
+            path={`${process.env.PUBLIC_URL}/search/`}
             element={
               <>
                 <Search setResult={setResult} />
@@ -183,7 +189,7 @@ export const App = memo(() => {
             }
           />
           <Route
-            path={`${process.env.PUBLIC_URL}/favorite`}
+            path={`${process.env.PUBLIC_URL}/favorite/`}
             element={
               <Favorite
                 favoriteList={favoriteList}
