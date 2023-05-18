@@ -118,16 +118,32 @@ export const App = memo(() => {
   }, [favoriteIds]);
 
   //画面遷移時にcookie情報を取得
-  const loadCookie = useCallback(() => {
+  const loadCookie = () => {
     //お気に入りがゼロの場合はcookieを取得してfavoriteIdsに反映
-    if (favoriteIds.length === 0) {
-      const CookiesOfFavoriteIds = cookie.CookiesOfFavoriteIds;
+    let CookiesOfFavoriteIds = cookie.CookiesOfFavoriteIds;
+    console.log("loadCookie", CookiesOfFavoriteIds);
+
+    if (CookiesOfFavoriteIds === undefined) {
+      CookiesOfFavoriteIds = [];
       setFavoriteIds(CookiesOfFavoriteIds);
-      //デバック用
+      // デバック用
       console.log("loadCookie", CookiesOfFavoriteIds);
+      return;
+    } else {
+      setFavoriteIds(CookiesOfFavoriteIds);
     }
-    return;
-  }, []);
+  };
+
+  // const loadCookie = useCallback(() => {
+  //   //お気に入りがゼロの場合はcookieを取得してfavoriteIdsに反映
+  //   if (favoriteIds.length === 0) {
+  //     const CookiesOfFavoriteIds = cookie.CookiesOfFavoriteIds;
+  //     setFavoriteIds(CookiesOfFavoriteIds);
+  //     //デバック用
+  //     console.log("loadCookie", CookiesOfFavoriteIds);
+  //   }
+  //   return;
+  // }, []);
 
   //画面遷移（最初の一回）だけSearchページへ遷移する
   const moveToSearch = () => {
@@ -165,6 +181,7 @@ export const App = memo(() => {
 
           <Link
             to={`${process.env.PUBLIC_URL}/search/`}
+            // to={`/search/`}
             className="search nav-item"
           >
             <img src={`${process.env.PUBLIC_URL}/img/search.png`} alt="" />
@@ -175,6 +192,7 @@ export const App = memo(() => {
         <Routes>
           <Route
             path={`${process.env.PUBLIC_URL}/search/`}
+            // path={`/search/`}
             element={
               <>
                 <Search setResult={setResult} />
