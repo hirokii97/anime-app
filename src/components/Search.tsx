@@ -143,6 +143,11 @@ export const Search = memo((props: Props) => {
 
           .selectbox-002 {
             position: relative;
+            display: block;
+            position: relative;
+            height: 50px;
+            width: 251px;
+            margin: 0 auto;
           }
 
           .selectbox-002::before,

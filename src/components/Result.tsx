@@ -21,7 +21,7 @@ declare module "react" {
 
 export const Result = memo((props: Props) => {
   //「いいね」ボタン（favorite）の設定
-  const { favoriteIds, result, onClickFavorites , getFavoriteList } = props;
+  const { favoriteIds, result, onClickFavorites, getFavoriteList } = props;
 
   return (
     <section>
@@ -189,7 +189,7 @@ export const Result = memo((props: Props) => {
 
           .result__watchers_count.c-icon {
             max-width: 50px;
-            margin-left: 220px;
+            margin-left: 120px;
           }
 
           .result__box p {
@@ -197,6 +197,9 @@ export const Result = memo((props: Props) => {
           }
           .result__box {
             border-radius: 5px;
+            max-width: 300px;
+            width: 100%;
+            border: black 1px solid;
           }
 
           .result__detail-title {
@@ -207,12 +210,18 @@ export const Result = memo((props: Props) => {
 
           .result__image {
             text-align: center;
-            max-width: 400px;
-            max-height: 210px;
+            max-width: 300px;
+            max-height: 157px;
+             {
+              /* max-width: 400px;
+            max-height: 210px; */
+            }
           }
           .result__image img {
-            max-width: 400px;
-            max-height: 210px;
+            max-width: 300px;
+            max-height: 157px;
+            {/* max-width: 400px;
+            max-height: 210px; */}
           }
 
           .result__detail {

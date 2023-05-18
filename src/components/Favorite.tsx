@@ -2,10 +2,9 @@ import { memo, useEffect } from "react";
 import type { Anime } from "../types/animes";
 
 export const Favorite = memo((props: any) => {
-
-  useEffect(()=> {
-    props.onClickFavorites()
-  },[])
+  useEffect(() => {
+    props.onClickFavorites();
+  }, []);
 
   return (
     <section>
@@ -135,9 +134,12 @@ export const Favorite = memo((props: any) => {
           }
 
           .result__box {
-            max-width: 400px;
+            max-width: 300px;
             width: 100%;
             border: black 1px solid;
+             {
+              /* max-width: 400px; */
+            }
           }
 
           .result__menu {
@@ -182,7 +184,10 @@ export const Favorite = memo((props: any) => {
 
           .result__watchers_count.c-icon {
             max-width: 50px;
-            margin-left: 220px;
+            margin-left: 120px;
+             {
+              /* margin-left: 220px; */
+            }
           }
 
           .result__box {
@@ -201,12 +206,39 @@ export const Favorite = memo((props: any) => {
 
           .result__image {
             text-align: center;
-            max-width: 400px;
-            max-height: 210px;
+            max-width: 300px;
+            max-height: 157px;
+             {
+              /* max-width: 400px;
+            max-height: 210px; */
+            }
           }
+
+           {
+            /* @media screen and (max-width: 500px) {
+            .result__image {
+              max-width: 350px;
+              max-height: 184px;
+            }
+          } */
+          }
+
           .result__image img {
-            max-width: 400px;
-            max-height: 210px;
+            max-width: 300px;
+            max-height: 157px;
+             {
+              /* max-width: 400px;
+            max-height: 210px; */
+            }
+          }
+
+           {
+            /* @media screen and (max-width: 500px) {
+            .result__image img {
+              max-width: 350px;
+              max-height: 184px;
+            }
+          } */
           }
 
           .result__detail {
