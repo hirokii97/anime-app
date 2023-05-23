@@ -27,7 +27,7 @@ export const App = memo(() => {
   const [cookie, setCookie] = useCookies(["CookiesOfFavoriteIds"]);
 
   //ボタン押下時に「お気に入り」に登録
-  const onClickFavorites = (id: any) => {
+  const onClickFavorites:React.Dispatch<number> = (id: number ) => {
     //お気に入り削除用の配列を再定義（stateの更新は関数実行後のため、再定義　＋　filterでidを除いた配列を再生成）
     const delateId = favoriteIds.filter(
       (favoriteId: number) => favoriteId !== id
@@ -95,7 +95,7 @@ export const App = memo(() => {
 
   //react-cookiesに登録
   const addCookie = useCallback(
-    (ids: any) => {
+    (ids: number[]) => {
       const newFavoriteIds = [...ids];
       console.log("newFavoriteIds", newFavoriteIds);
       console.log("ids", ids);
