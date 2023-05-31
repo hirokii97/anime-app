@@ -15,7 +15,7 @@ export const Tab = () => {
           <p>お気に入り</p>
         </Link>
 
-        <Link href="/search" className="search nav-item">
+        <Link href="/" className="search nav-item">
           <Image src="/img/search.png" alt="" width={30} height={30} />
           <p>検索</p>
         </Link>
