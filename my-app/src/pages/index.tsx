@@ -1,11 +1,12 @@
 // import styles from "@/styles/Home.module.css";
 import { Search } from "src/components/Search";
 // import { Favorite } from "src/components/Favorite";
-import { Result } from "./src/components/Result";
+import { Result } from "src/components/Result";
 import { memo, useCallback, useEffect, useState } from "react";
-import type { Anime } from "../types/animes";
+import type { Anime } from "src/types/animes";
 import { useCookies } from "react-cookie";
 import Link from "next/link";
+import Image from 'next/image'
 
 declare module "react" {
   //ReactのHTML要素の属性を拡張してstyle属性にjsxとglobalを追加した。
@@ -156,12 +157,12 @@ export default function Home() {
 
       <nav className="nav">
         <Link href="/favorite" className="favorite nav-item">
-          <img src="img/icon_favorite-active.png" alt="" />
+          <Image src="img/icon_favorite-active.png" alt="" />
           <p>お気に入り</p>
         </Link>
 
         <Link href="/Search" className="search nav-item">
-          <img src="img/search.png" alt="" />
+          <Image src="img/search.png" alt="" />
           <p>検索</p>
         </Link>
       </nav>

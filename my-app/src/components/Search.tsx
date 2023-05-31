@@ -1,5 +1,5 @@
 import { SetStateAction, memo, useEffect, useState } from "react";
-import type { Anime } from "../types/animes";
+import type { Anime } from "src/types/animes";
 import { useLocation } from "react-router-dom";
 
 type Props = {

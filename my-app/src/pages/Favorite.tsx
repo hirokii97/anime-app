@@ -1,5 +1,6 @@
 import { memo, useEffect } from "react";
-import type { Anime } from "../src/types/animes";
+import type { Anime } from "src/types/animes";
+import Image from 'next/image'
 
 type Props = {
   favoriteIds: number[];
@@ -8,6 +9,7 @@ type Props = {
   onClickFavorites: any;
 };
 
+// eslint-disable-next-line react/display-name
 export const Favorite = memo((props: Props) => {
   console.log("props", props);
 
@@ -26,27 +28,27 @@ export const Favorite = memo((props: Props) => {
               <div className="result__menu">
                 <div className="result__media">{`${list.media_text}`}</div>
                 <div className="result__watchers_count c-icon">
-                  <img
-                    src="../img/icon__result-watchers-count.png"
+                  <Image
+                    src="public/img/icon__result-watchers-count.png"
                     alt="見てる ・ 見たい ・ 見た人の数"
                   />
                   <div className="c-icon-text">{`${list.watchers_count}`}</div>
                 </div>
                 <div className="result__reviews_count c-icon">
-                  <img
-                    src="../img/icon__result-reviews-count.png"
+                  <Image
+                    src="public/img/icon__result-reviews-count.png"
                     alt="レビュー数"
                   />
                   <div className="c-icon-text">{`${list.reviews_count}`}</div>
                 </div>
               </div>
               <div className="result__image">
-                <img
+                <Image
                   src={
                     list.images.recommended_url ||
                     list.images.facebook.og_image_url ||
                     list.images.twitter.image_url ||
-                    "../img/no-image.jpg"
+                    "public/img/no-image.jpg"
                   }
                   alt=""
                   //取得した画像がエラーの場合の処理
@@ -54,7 +56,7 @@ export const Favorite = memo((props: Props) => {
                     // 無限ループさせないためのnull設定
                     e.target.onError = null;
                     //　エラー時にno-img画像を指定
-                    e.target.src = "../img/no-image.jpg";
+                    e.target.src = "public/img/no-image.jpg";
                   }}
                 />
               </div>
@@ -76,24 +78,24 @@ export const Favorite = memo((props: Props) => {
                       className="result__detail-twitter"
                       href={`https://twitter.com/${list.twitter_username}`}
                     >
-                      <img
-                        src="../img/icon__result-detail_twitter.png"
+                      <Image
+                        src="public/img/icon__result-detail_twitter.png"
                         alt=""
                       />
                     </a>
                   </p>
                   <div>
                     <button
-                      onClick={(e) => {
+                      onClick={() => {
                         props.onClickFavorites(list.id);
                       }}
                       className="favorite_button"
                     >
-                      <img
+                      <Image
                         src={
                           props.favoriteIds.includes(list.id)
-                            ? "../img/icon_favorite-active.png"
-                            : "../img/icon_favorite-no-active.png"
+                            ? "public/img/icon_favorite-active.png"
+                            : "public/img/icon_favorite-no-active.png"
                         }
                         alt=""
                       />
