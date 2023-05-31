@@ -1,0 +1,28 @@
+.nav {
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  border: 1px solid black;
+  box-sizing: border-box;
+  background-color: white;
+}
+
+.navItem {
+  width: 50%;
+  height: auto;
+  text-align: center;
+  text-decoration: none;
+  border: 1px solid black;
+  padding: 8px;
+}
+
+.navItem img {
+  width: 36px;
+  height: 36px;
+}
+.navItem p {
+  margin: 0;
+  color: black;
+}

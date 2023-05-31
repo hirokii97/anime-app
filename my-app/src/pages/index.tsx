@@ -14,7 +14,7 @@ const inter = Inter({ subsets: ["latin"] });
 export default function Home() {
   //検索した内容を’Search’から’Result’へ受け渡す
   const [result, setResult] = useState<Anime[]>([]);
-  
+
   return (
     <>
       <HeadLine />
