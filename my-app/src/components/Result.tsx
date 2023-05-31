@@ -37,6 +37,7 @@ export const Result = memo((props: Props) => {
                 <Image
                   src="public/img/icon__result-watchers-count.png"
                   alt="見てる ・ 見たい ・ 見た人の数"
+                  width={10}
                 />
                 <div className="c-icon-text">{`${list.watchers_count}`}</div>
               </div>
@@ -44,6 +45,7 @@ export const Result = memo((props: Props) => {
                 <Image
                   src="public/img/icon__result-reviews-count.png"
                   alt="レビュー数"
+                  width={10}
                 />
                 <div className="c-icon-text">{`${list.reviews_count}`}</div>
               </div>
@@ -57,6 +59,7 @@ export const Result = memo((props: Props) => {
                   "public/img/no-image.jpg"
                 }
                 alt=""
+                width={100}
                 //取得した画像がエラーの場合の処理
                 onError={(e) => {
                   // 無限ループさせないためのnull設定
@@ -85,7 +88,7 @@ export const Result = memo((props: Props) => {
                     className="result__detail-twitter"
                     href={`https://twitter.com/${list.twitter_username}`}
                   >
-                    <Image src="public/img/icon__result-detail_twitter.png" alt="" />
+                    <Image src="public/img/icon__result-detail_twitter.png" alt="" width={100} />
                   </a>
                 </p>
                 <div>
@@ -103,6 +106,7 @@ export const Result = memo((props: Props) => {
                           : "public/img/icon_favorite-no-active.png"
                       }
                       alt=""
+                      width={100}
                     />
                   </button>
 

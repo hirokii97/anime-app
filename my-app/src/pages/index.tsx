@@ -7,6 +7,7 @@ import type { Anime } from "src/types/animes";
 import { useCookies } from "react-cookie";
 import Link from "next/link";
 import Image from 'next/image'
+import { Tab } from "src/components/Tab";
 
 declare module "react" {
   //ReactのHTML要素の属性を拡張してstyle属性にjsxとglobalを追加した。
@@ -150,12 +151,12 @@ export default function Home() {
     loadCookie();
   };
 
-  window.addEventListener("load", firstLoadFunction, { once: true });
+  // window.addEventListener("load", firstLoadFunction, { once: true });
   return (
     <main>
       <h1>アニメ検索サイト</h1>
 
-      <nav className="nav">
+      {/* <nav className="nav">
         <Link href="/favorite" className="favorite nav-item">
           <Image src="img/icon_favorite-active.png" alt="" />
           <p>お気に入り</p>
@@ -165,17 +166,19 @@ export default function Home() {
           <Image src="img/search.png" alt="" />
           <p>検索</p>
         </Link>
-      </nav>
+      </nav> */}
+
+      <Tab />
 
       <div>
         <Search setResult={setResult} />
-        <Result
+        {/* <Result
           result={result}
           favoriteIds={favoriteIds}
           setFavoriteIds={setFavoriteIds}
           getFavoriteList={getFavoriteList}
           onClickFavorites={onClickFavorites}
-        />
+        /> */}
       </div>
       {/* <div>
         <Favorite

@@ -1,6 +1,6 @@
 import { memo, useEffect } from "react";
 import type { Anime } from "src/types/animes";
-import Image from 'next/image'
+import Image from "next/image";
 
 type Props = {
   favoriteIds: number[];
@@ -31,6 +31,7 @@ export const Favorite = memo((props: Props) => {
                   <Image
                     src="public/img/icon__result-watchers-count.png"
                     alt="見てる ・ 見たい ・ 見た人の数"
+                    width={10}
                   />
                   <div className="c-icon-text">{`${list.watchers_count}`}</div>
                 </div>
@@ -38,6 +39,7 @@ export const Favorite = memo((props: Props) => {
                   <Image
                     src="public/img/icon__result-reviews-count.png"
                     alt="レビュー数"
+                    width={10}
                   />
                   <div className="c-icon-text">{`${list.reviews_count}`}</div>
                 </div>
@@ -49,8 +51,10 @@ export const Favorite = memo((props: Props) => {
                     list.images.facebook.og_image_url ||
                     list.images.twitter.image_url ||
                     "public/img/no-image.jpg"
+                    
                   }
                   alt=""
+                  width={100}
                   //取得した画像がエラーの場合の処理
                   onError={(e) => {
                     // 無限ループさせないためのnull設定
@@ -81,6 +85,7 @@ export const Favorite = memo((props: Props) => {
                       <Image
                         src="public/img/icon__result-detail_twitter.png"
                         alt=""
+                        width={100}
                       />
                     </a>
                   </p>
@@ -98,6 +103,7 @@ export const Favorite = memo((props: Props) => {
                             : "public/img/icon_favorite-no-active.png"
                         }
                         alt=""
+                        width={100}
                       />
                     </button>
 
