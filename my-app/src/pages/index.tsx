@@ -1,7 +1,7 @@
 // import styles from "@/styles/Home.module.css";
 import { Search } from "src/components/Search";
 // import { Favorite } from "src/components/Favorite";
-import { Result } from "src/components/Result";
+import { Result } from "./src/components/Result";
 import { memo, useCallback, useEffect, useState } from "react";
 import type { Anime } from "../types/animes";
 import { useCookies } from "react-cookie";

@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import { Anime } from "../types/animes";
 // import Cookies from 'js-cookie';
 import { SetStateAction, memo } from "react";

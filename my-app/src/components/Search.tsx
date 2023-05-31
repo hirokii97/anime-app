@@ -14,6 +14,7 @@ declare module "react" {
   }
 }
 
+// eslint-disable-next-line react/display-name
 export const Search = memo((props: Props) => {
   //アニメ情報をStateに設定
   const [animeList, setAnimeList] = useState<Anime[]>([]);
