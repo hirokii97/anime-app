@@ -23,20 +23,7 @@ declare module "react" {
 }
 
 export const Result = (props: any) => {
-  const { result } = props;
-
-  const reviewClasses = classNames(
-    classes.result__reviews_count,
-    classes.cIcon
-  );
-
-  // 画面遷移（最初の一回）に実行する関数
-  // const firstLoadFunction = () => {
-  //   moveToSearch();
-  //   loadCookie();
-  // };
-
-  // window.addEventListener("load", firstLoadFunction, { once: true });
+  const { favoriteIds, result, onClickFavorites, getFavoriteList } = props;
 
   return (
     <section>
@@ -123,13 +110,13 @@ export const Result = (props: any) => {
                   </a>
                 </p>
 
-                {/* <div>
+                <div>
                   <button
                     onClick={() => {
                       onClickFavorites(list.id);
                       getFavoriteList(list.id);
                     }}
-                    className="favorite_button"
+                    className={classes.favorite_button}
                   >
                     <img
                       src={
@@ -140,26 +127,7 @@ export const Result = (props: any) => {
                       alt=""
                     />
                   </button>
-
-                  <style jsx>
-                    {`
-                      .favorite_button {
-                        width: 40px;
-                        height: 40px;
-                        padding: 0;
-                        background-color: transparent;
-                        border: none;
-                        padding-top: 3px;
-                      }
-                      .favorite_button img {
-                        display: flex;
-                        align-items: center;
-                        width: 20px;
-                        height: 20px;
-                      }
-                    `}
-                  </style>
-                </div> */}
+                </div>
               </div>
             </div>
           </div>
