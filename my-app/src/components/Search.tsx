@@ -1,6 +1,5 @@
 import { Anime } from "@/types/animes";
 import { useEffect, useState } from "react";
-// import { useLocation } from "react-router-dom";
 
 export const Search = (props:any) => {
   //アニメ情報をStateに設定
@@ -49,11 +48,9 @@ export const Search = (props:any) => {
     console.log("onSearch", "a");
   };
 
-  // const location = useLocation();
-
-  // useEffect(() => {
-  //   onSearch();
-  // }, [location]);
+  useEffect(() => {
+    window.addEventListener("load", onSearch(), { once: true });
+  },[])
 
   useEffect(() => {
     props.setResult(animeList);
