@@ -1,8 +1,6 @@
 import { Anime } from "@/types/animes";
 import { SetStateAction, useCallback, useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import classes from 'src/components/Result/Result.module.css'
-import classNames from 'classnames';
 
 type Props = {
   result: Anime[];
@@ -34,12 +32,12 @@ export const Result = (props: any) => {
 
   return (
     <section>
-      <div className={classes.result__wrapper}>
+      <div className="result__wrapper">
         {/* map()=>{} 配列を順番に処理 */}
         {result.map((list: Anime) => (
-          <div className={classes.result__box} key={list.id}>
-            <div className={classes.result__menu}>
-              <div className={classes.result__media}>{`${list.media_text}`}</div>
+          <div className="result__box" key={list.id}>
+            <div className="result__menu">
+              <div className="result__media">{`${list.media_text}`}</div>
               <div className="result__watchers_count c-icon">
                 <img
                   src="../img/icon__result-watchers-count.png"
@@ -160,7 +158,7 @@ export const Result = (props: any) => {
           .result__menu {
             display: flex;
             align-items: center;
-            height: auto;
+            height: 50px;
             padding: 5px 10px;
           }
 
@@ -168,8 +166,8 @@ export const Result = (props: any) => {
             /* タグ（TV・映画） */
           }
           .result__media {
-            {/* height: 20px;
-            max-width: 35px; */}
+            height: 20px;
+            max-width: 35px;
             width: 100%;
             padding: 8px 10px;
             border-radius: 5px;
