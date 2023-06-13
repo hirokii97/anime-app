@@ -8,10 +8,12 @@ import { Search } from "@/components/Search";
 import { Result } from "@/components/Result";
 import { useEffect, useState } from "react";
 import { Anime } from "@/types/animes";
+import React from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Home() {
+// export default function Home() {
+function Home() {
   //検索した内容を’Search’から’Result’へ受け渡す
   const [result, setResult] = useState<Anime[]>([]);
   const [favoriteIds, setFavoriteIds] = useState<number[]>([]);
@@ -107,3 +109,4 @@ export default function Home() {
     </>
   );
 }
+export default React.memo(Home);
