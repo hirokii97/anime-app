@@ -83,7 +83,7 @@ export const Result = (props: any) => {
             </div>
             <div className={classes.result__detail}>
               <p className={classes.result__detail_title}>
-                【 {`${list.title}`} 】
+                 {`${list.title}`} 
               </p>
               <p>エピソード数: {`${list.episodes_count}`}</p>
               <p>リリース時期: {`${list.season_name_text}`}</p>
