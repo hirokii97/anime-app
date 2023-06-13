@@ -4,6 +4,8 @@ import { useCookies } from "react-cookie";
 import classes from "src/components/Result/Result.module.css";
 import classNames from "classnames";
 import Image from "next/image";
+import { useAtom, useSetAtom } from "jotai";
+import { favoriteIdAtom } from "@/pages/atoms";
 
 type Props = {
   result: Anime[];
@@ -23,7 +25,9 @@ declare module "react" {
 }
 
 export const Result = (props: any) => {
-  const { favoriteIds, result, onClickFavorites, getFavoriteList } = props;
+  const { result, onClickFavorites, getFavoriteList } = props;
+  const [favoriteIds, setFavoriteIds] = useAtom(favoriteIdAtom);
+  
 
   return (
     <section>

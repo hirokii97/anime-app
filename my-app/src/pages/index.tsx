@@ -9,6 +9,9 @@ import { Result } from "@/components/Result";
 import { useEffect, useState } from "react";
 import { Anime } from "@/types/animes";
 import React from "react";
+import { useAtom, useSetAtom } from "jotai";
+import { animeAtom } from "@/atoms";
+import { favoriteIdAtom , favoriteListAtom } from "./atoms";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,10 +19,11 @@ const inter = Inter({ subsets: ["latin"] });
 function Home() {
   //検索した内容を’Search’から’Result’へ受け渡す
   const [result, setResult] = useState<Anime[]>([]);
-  const [favoriteIds, setFavoriteIds] = useState<number[]>([]);
 
-  //お気に入り情報をStateに設定
-  const [favoriteList, setFavoriteList] = useState<Anime[]>([]);
+  const [favoriteIds, setFavoriteIds] = useAtom(favoriteIdAtom);
+
+  // //お気に入り情報をStateに設定
+  const [favoriteList, setFavoriteList] = useAtom(favoriteListAtom);
 
   //ボタン押下時に「お気に入り」に登録
   const onClickFavorites: React.Dispatch<number> = (id: number) => {
@@ -97,13 +101,10 @@ function Home() {
         <h1>アニメ検索サイト</h1>
         <div className={styles.description}></div>
         <Search setResult={setResult} />
-        <Result
-          result={result}
-          favoriteIds={favoriteIds}
-          setFavoriteIds={setFavoriteIds}
-          getFavoriteList={getFavoriteList}
-          onClickFavorites={onClickFavorites}
-        />
+        <Result 
+        result={result} 
+        onClickFavorites={onClickFavorites} 
+        getFavoriteList={getFavoriteList} />
         <Tab />
       </main>
     </>
