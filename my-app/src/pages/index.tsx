@@ -9,7 +9,7 @@ import { Result } from "@/components/Result";
 import { useEffect, useState } from "react";
 import { Anime } from "@/types/animes";
 import React from "react";
-import { useAtom, useSetAtom } from "jotai";
+import { atom, useAtom, useSetAtom } from "jotai";
 import { animeAtom } from "@/atoms";
 import { favoriteIdAtom , favoriteListAtom } from "./atoms";
 
@@ -20,42 +20,12 @@ function Home() {
   //検索した内容を’Search’から’Result’へ受け渡す
   const [result, setResult] = useState<Anime[]>([]);
 
-  const [favoriteIds, setFavoriteIds] = useAtom(favoriteIdAtom);
+  const [favoriteIds, setFavoriteIds] = useAtom<number[]>(favoriteIdAtom);
 
   // //お気に入り情報をStateに設定
-  const [favoriteList, setFavoriteList] = useAtom(favoriteListAtom);
+  const [favoriteList, setFavoriteList] = useAtom<Anime[]>(favoriteListAtom);
 
-  //ボタン押下時に「お気に入り」に登録
-  const onClickFavorites: React.Dispatch<number> = (id: number) => {
-    //お気に入り削除用の配列を再定義（stateの更新は関数実行後のため、再定義　＋　filterでidを除いた配列を再生成）
-    const delateId = favoriteIds.filter(
-      (favoriteId: number) => favoriteId !== id
-    );
-    const cleanDelateId = delateId.filter((v) => v);
 
-    //お気に入り追加用の配列を再定義（stateの更新は関数実行後のため、再定義）
-    const addId = [...favoriteIds, id];
-    const cleanAddId = addId.filter((v) => v);
-
-    //お気に入り(favorite)にidが入っている場合
-    if (favoriteIds.includes(id)) {
-      setFavoriteIds(cleanDelateId);
-
-      //デバック用
-      console.log("cleanDelateId", cleanDelateId);
-      console.log("filterFavoriteIds", favoriteIds);
-
-      //お気に入りに追加（スプレット構文で配列に追加）
-    } else {
-      setFavoriteIds(cleanAddId);
-
-      //デバック用
-      console.log("cleanAddId", cleanAddId);
-      console.log("setFavoriteIds", favoriteIds);
-    }
-    //デバック用
-    console.log("onClickFavorites", favoriteIds);
-  };
 
   //お気に入りに登録した情報を取得（API送信・受信の関数）
   const getFavoriteData = async () => {
