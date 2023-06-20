@@ -1,26 +1,70 @@
 import { useEffect } from "react";
 import type { Anime } from "../types/animes";
 import { useAtom } from "jotai";
-import {
-  favoriteIdAtom,
-  favoriteListAtom,
-  onClickFavoritesAtom,
-} from "./atoms";
+import { favoriteIdAtom, favoriteListAtom } from "./atoms";
 import { Tab } from "@/components/Tab";
 
-type Props = {
-  // onClickFavorites: React.Dispatch<number>;
-  onClickFavorites: any;
-};
+export default function Favorite() {
+  const [favoriteIds, setFavoriteIds] = useAtom(favoriteIdAtom);
+  const [favoriteList, setFavoriteList] = useAtom(favoriteListAtom);
 
-export default function Favorite(props: Props) {
-  const [favoriteIds] = useAtom(favoriteIdAtom);
-  const [favoriteList] = useAtom(favoriteListAtom);
-  const [onClickFavorites] = useAtom(onClickFavoritesAtom);
+  const onClickFavorites: React.Dispatch<number> = (id: number) => {
+    //お気に入り削除用の配列を再定義（stateの更新は関数実行後のため、再定義　＋　filterでidを除いた配列を再生成）
+    const delateId = favoriteIds.filter(
+      (favoriteId: number) => favoriteId !== id
+    );
+    const cleanDelateId = delateId.filter((v) => v);
 
-  // useEffect(() => {
-  //   props.onClickFavorites();
-  // }, []);
+    //お気に入り追加用の配列を再定義（stateの更新は関数実行後のため、再定義）
+    const addId = [...favoriteIds, id];
+    const cleanAddId = addId.filter((v) => v);
+
+    //お気に入り(favorite)にidが入っている場合
+    if (favoriteIds.includes(id)) {
+      setFavoriteIds(cleanDelateId);
+
+      //お気に入りに追加（スプレット構文で配列に追加）
+    } else {
+      setFavoriteIds(cleanAddId);
+    }
+  };
+
+  //お気に入りに登録した情報を取得（API送信・受信の関数）
+  const getFavoriteData = async () => {
+    const arrIds = favoriteIds.join(",");
+
+    //APIリンク
+    const endpoint = "https://api.annict.com/v1/works";
+
+    //APIトークン
+    const access_token = "UVol8sjtyTLqvvAtJTRageHvztFssfsdPG3AYAoPXHY";
+
+    //ソート:人気順
+    const sort = "sort_watchers_count=desc";
+
+    //fetch()→非同期通信を使ってリクエストとレスポンス取得を行う
+    //パラメータ参照（https://developers.annict.com/docs/rest-api/v1/works）
+    const res = await fetch(
+      `${endpoint}/?filter_ids=${arrIds}&${sort}&access_token=${access_token}`
+    );
+
+    //json形式にする
+    const data = await res.json();
+    return data;
+  };
+
+  //お気に入りのリストを作成
+  const getFavoriteList = async () => {
+    const data = await getFavoriteData();
+    const newFavoriteList = data;
+    setFavoriteList(newFavoriteList.works);
+  };
+
+  //loadCookieは入れない（ループが発生するため）
+  //favoriteIdsが変わるたびに新たにお気に入りリストを更新する。お気に入り画面からの削除も可能
+  useEffect(() => {
+    getFavoriteList();
+  }, [favoriteIds]);
 
   return (
     <section>
@@ -113,8 +157,8 @@ export default function Favorite(props: Props) {
         </div>
       ) : (
         <div className="no-favorite">お気に入りに登録してみよう！</div>
-        )}
-        <Tab />
+      )}
+      <Tab />
 
       {/* CSS(styled JSXを採用) */}
       <style jsx>

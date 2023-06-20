@@ -11,7 +11,7 @@ import { Anime } from "@/types/animes";
 import React from "react";
 import { useAtom, useSetAtom } from "jotai";
 import { animeAtom } from "@/atoms";
-import { favoriteIdAtom , favoriteListAtom } from "./atoms";
+import { favoriteIdAtom, favoriteListAtom } from "./atoms";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -41,20 +41,10 @@ function Home() {
     if (favoriteIds.includes(id)) {
       setFavoriteIds(cleanDelateId);
 
-      //デバック用
-      console.log("cleanDelateId", cleanDelateId);
-      console.log("filterFavoriteIds", favoriteIds);
-
       //お気に入りに追加（スプレット構文で配列に追加）
     } else {
       setFavoriteIds(cleanAddId);
-
-      //デバック用
-      console.log("cleanAddId", cleanAddId);
-      console.log("setFavoriteIds", favoriteIds);
     }
-    //デバック用
-    console.log("onClickFavorites", favoriteIds);
   };
 
   //お気に入りに登録した情報を取得（API送信・受信の関数）
@@ -101,10 +91,11 @@ function Home() {
         <h1>アニメ検索サイト</h1>
         <div className={styles.description}></div>
         <Search setResult={setResult} />
-        <Result 
-        result={result} 
-        onClickFavorites={onClickFavorites} 
-        getFavoriteList={getFavoriteList} />
+        <Result
+          result={result}
+          onClickFavorites={onClickFavorites}
+          getFavoriteList={getFavoriteList}
+        />
         <Tab />
       </main>
     </>
