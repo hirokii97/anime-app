@@ -45,7 +45,6 @@ export const Search = (props:any) => {
   const onSearch = async () => {
     const data = await getData(year, season);
     setAnimeList(data.works);
-    console.log("onSearch", "a");
   };
 
   useEffect(() => {

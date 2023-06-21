@@ -3,10 +3,45 @@ import type { Anime } from "../types/animes";
 import { useAtom } from "jotai";
 import { favoriteIdAtom, favoriteListAtom } from "./atoms";
 import { Tab } from "@/components/Tab";
+import { useCookies } from "react-cookie";
 
 export default function Favorite() {
   const [favoriteIds, setFavoriteIds] = useAtom(favoriteIdAtom);
   const [favoriteList, setFavoriteList] = useAtom(favoriteListAtom);
+
+/*///////////
+cookie  
+*/
+
+  //react-cookieの設定
+  const [cookie, setCookie] = useCookies(["CookiesOfFavoriteIds"]);
+
+  //react-cookiesに登録
+  const addCookie = () => {
+    setCookie("CookiesOfFavoriteIds", favoriteIds, {
+      path: "/",
+      maxAge: 2592000,
+    });
+
+    console.log('addCookie');
+    
+  };
+
+  useEffect(() => {
+    addCookie();
+    console.log('useEffect');
+    
+
+    //お気に入りがゼロの場合はcookieを取得してfavoriteIdsに反映
+    if (favoriteIds.length === 0) {
+      const yourFavoriteIds = cookie.CookiesOfFavoriteIds;
+      setFavoriteIds(yourFavoriteIds);
+    }
+  }, []);
+
+/*/
+cookie  
+*////////////
 
   const onClickFavorites: React.Dispatch<number> = (id: number) => {
     //お気に入り削除用の配列を再定義（stateの更新は関数実行後のため、再定義　＋　filterでidを除いた配列を再生成）
@@ -22,6 +57,7 @@ export default function Favorite() {
     //お気に入り(favorite)にidが入っている場合
     if (favoriteIds.includes(id)) {
       setFavoriteIds(cleanDelateId);
+
 
       //お気に入りに追加（スプレット構文で配列に追加）
     } else {
@@ -110,7 +146,7 @@ export default function Favorite() {
                 />
               </div>
               <div className="result__detail">
-                <p className="result__detail-title">【 {`${list.title}`} 】</p>
+                <p className="result__detail-title"> {`${list.title}`} </p>
                 <p>エピソード数: {`${list.episodes_count}`}</p>
                 <p>リリース時期: {`${list.season_name_text}`}</p>
                 <div className="result__detail-link">

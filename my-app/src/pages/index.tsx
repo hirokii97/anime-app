@@ -12,6 +12,7 @@ import React from "react";
 import { useAtom, useSetAtom } from "jotai";
 import { animeAtom } from "@/atoms";
 import { favoriteIdAtom, favoriteListAtom } from "./atoms";
+import { useCookies } from "react-cookie";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,6 +25,39 @@ function Home() {
 
   // //お気に入り情報をStateに設定
   const [favoriteList, setFavoriteList] = useAtom(favoriteListAtom);
+
+/*///////////
+cookie  
+*/
+
+  //react-cookieの設定
+  const [cookie, setCookie] = useCookies(["CookiesOfFavoriteIds"]);
+
+  //react-cookiesに登録
+  const addCookie = () => {
+    setCookie("CookiesOfFavoriteIds", favoriteIds, {
+      path: "/",
+      maxAge: 2592000,
+    });
+
+    console.log('addCookie');
+    
+  };
+
+  useEffect(() => {
+    addCookie();
+    console.log('useEffect');
+
+    //お気に入りがゼロの場合はcookieを取得してfavoriteIdsに反映
+    if (favoriteIds.length === 0) {
+        const yourFavoriteIds = cookie.CookiesOfFavoriteIds;
+        setFavoriteIds(yourFavoriteIds);
+      }
+  }, [favoriteIds]);
+
+/*/
+cookie  
+*////////////
 
   //ボタン押下時に「お気に入り」に登録
   const onClickFavorites: React.Dispatch<number> = (id: number) => {
@@ -40,10 +74,12 @@ function Home() {
     //お気に入り(favorite)にidが入っている場合
     if (favoriteIds.includes(id)) {
       setFavoriteIds(cleanDelateId);
+      addCookie()
 
       //お気に入りに追加（スプレット構文で配列に追加）
     } else {
       setFavoriteIds(cleanAddId);
+      addCookie()
     }
   };
 
