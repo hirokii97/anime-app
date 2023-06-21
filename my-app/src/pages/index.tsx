@@ -60,7 +60,11 @@ cookie
   };
 
   // ロード実行
-  loadCookie();
+  // cookieは空配列（[]、数値では「%5B%5D」）で正常
+  // 空配列（[]、数値では「%5B%5D」）まで削除するとエラー
+  useEffect(() => {
+    loadCookie();
+  }, []);
 
   /*/
 cookie  
