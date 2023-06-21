@@ -6,7 +6,7 @@ import { Tab } from "@/components/Tab";
 import { HeadLine } from "@/components/HeadLine";
 import { Search } from "@/components/Search";
 import { Result } from "@/components/Result";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Anime } from "@/types/animes";
 import React from "react";
 import { useAtom, useSetAtom } from "jotai";
@@ -26,7 +26,7 @@ function Home() {
   // //お気に入り情報をStateに設定
   const [favoriteList, setFavoriteList] = useAtom(favoriteListAtom);
 
-/*///////////
+  /*///////////
 cookie  
 */
 
@@ -34,30 +34,37 @@ cookie
   const [cookie, setCookie] = useCookies(["CookiesOfFavoriteIds"]);
 
   //react-cookiesに登録
-  const addCookie = () => {
-    setCookie("CookiesOfFavoriteIds", favoriteIds, {
-      path: "/",
-      maxAge: 2592000,
-    });
+  const addCookie = useCallback(
+    (ids: number[]) => {
+      const newFavoriteIds = [...ids];
 
-    console.log('addCookie');
-    
+      setCookie("CookiesOfFavoriteIds", newFavoriteIds, {
+        path: "/",
+        maxAge: 2592000,
+      });
+    },
+    [favoriteIds]
+  );
+
+  //画面遷移時にcookie情報を取得
+  const loadCookie = () => {
+    //お気に入りがゼロの場合はcookieを取得してfavoriteIdsに反映
+    let CookiesOfFavoriteIds = cookie.CookiesOfFavoriteIds;
+
+    if (CookiesOfFavoriteIds === undefined) {
+      CookiesOfFavoriteIds = [];
+      setFavoriteIds(CookiesOfFavoriteIds);
+    } else {
+      setFavoriteIds(CookiesOfFavoriteIds);
+    }
   };
 
-  useEffect(() => {
-    addCookie();
-    console.log('useEffect');
+  // ロード実行
+  loadCookie();
 
-    //お気に入りがゼロの場合はcookieを取得してfavoriteIdsに反映
-    if (favoriteIds.length === 0) {
-        const yourFavoriteIds = cookie.CookiesOfFavoriteIds;
-        setFavoriteIds(yourFavoriteIds);
-      }
-  }, [favoriteIds]);
-
-/*/
+  /*/
 cookie  
-*////////////
+*/ ///////////
 
   //ボタン押下時に「お気に入り」に登録
   const onClickFavorites: React.Dispatch<number> = (id: number) => {
@@ -74,12 +81,12 @@ cookie
     //お気に入り(favorite)にidが入っている場合
     if (favoriteIds.includes(id)) {
       setFavoriteIds(cleanDelateId);
-      addCookie()
+      addCookie(cleanDelateId);
 
       //お気に入りに追加（スプレット構文で配列に追加）
     } else {
       setFavoriteIds(cleanAddId);
-      addCookie()
+      addCookie(cleanAddId);
     }
   };
 
@@ -107,7 +114,7 @@ cookie
     return data;
   };
 
-  //お気に入りのリストを作成
+  // お気に入りのリストを作成
   const getFavoriteList = async () => {
     const data = await getFavoriteData();
     const newFavoriteList = data;
