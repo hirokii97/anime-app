@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import type { Anime } from "../types/animes";
 import { useAtom } from "jotai";
 import { favoriteIdAtom, favoriteListAtom } from "./atoms";
@@ -9,7 +9,7 @@ export default function Favorite() {
   const [favoriteIds, setFavoriteIds] = useAtom(favoriteIdAtom);
   const [favoriteList, setFavoriteList] = useAtom(favoriteListAtom);
 
-/*///////////
+ /*///////////
 cookie  
 */
 
@@ -17,31 +17,41 @@ cookie
   const [cookie, setCookie] = useCookies(["CookiesOfFavoriteIds"]);
 
   //react-cookiesに登録
-  const addCookie = () => {
-    setCookie("CookiesOfFavoriteIds", favoriteIds, {
-      path: "/",
-      maxAge: 2592000,
-    });
+  const addCookie = useCallback(
+    (ids: number[]) => {
+      const newFavoriteIds = [...ids];
 
-    console.log('addCookie');
-    
+      setCookie("CookiesOfFavoriteIds", newFavoriteIds, {
+        path: "/",
+        maxAge: 2592000,
+      });
+    },
+    [favoriteIds]
+  );
+
+  //画面遷移時にcookie情報を取得
+  const loadCookie = () => {
+    //お気に入りがゼロの場合はcookieを取得してfavoriteIdsに反映
+    let CookiesOfFavoriteIds = cookie.CookiesOfFavoriteIds;
+
+    if (CookiesOfFavoriteIds === undefined) {
+      CookiesOfFavoriteIds = [];
+      setFavoriteIds(CookiesOfFavoriteIds);
+    } else {
+      setFavoriteIds(CookiesOfFavoriteIds);
+    }
   };
 
+  // ロード実行
+  // cookieは空配列（[]、数値では「%5B%5D」）で正常
+  // 空配列（[]、数値では「%5B%5D」）まで削除するとエラー
   useEffect(() => {
-    addCookie();
-    console.log('useEffect');
-    
-
-    //お気に入りがゼロの場合はcookieを取得してfavoriteIdsに反映
-    if (favoriteIds.length === 0) {
-      const yourFavoriteIds = cookie.CookiesOfFavoriteIds;
-      setFavoriteIds(yourFavoriteIds);
-    }
+    loadCookie();
   }, []);
 
-/*/
+  /*/
 cookie  
-*////////////
+*/ ///////////
 
   const onClickFavorites: React.Dispatch<number> = (id: number) => {
     //お気に入り削除用の配列を再定義（stateの更新は関数実行後のため、再定義　＋　filterでidを除いた配列を再生成）
@@ -57,11 +67,13 @@ cookie
     //お気に入り(favorite)にidが入っている場合
     if (favoriteIds.includes(id)) {
       setFavoriteIds(cleanDelateId);
+      addCookie(cleanDelateId)
 
 
       //お気に入りに追加（スプレット構文で配列に追加）
     } else {
       setFavoriteIds(cleanAddId);
+      addCookie(cleanAddId)
     }
   };
 
