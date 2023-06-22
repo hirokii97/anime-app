@@ -116,12 +116,13 @@
 }
 
 .favorite_button {
-  width: 40px;
-  height: 40px;
+  width: 20px;
+  height: 20px;
   padding: 0;
   background-color: transparent;
   border: none;
   padding-top: 3px;
+  cursor: pointer;
 }
 .favorite_button img {
   display: flex;

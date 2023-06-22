@@ -1,3 +1,6 @@
 {
-  "javascript.preferences.importModuleSpecifier": "non-relative"
+  "prettier.configPath": "./my-app/.prettierrc",
+  "eslint.workingDirectories": ["./my-app"],
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "editor.codeActionsOnSave": ["source.fixAll.eslint"]
 }
