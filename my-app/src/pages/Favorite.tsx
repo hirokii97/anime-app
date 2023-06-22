@@ -4,8 +4,10 @@ import { useAtom } from "jotai";
 import { favoriteIdAtom, favoriteListAtom } from "./atoms";
 import { Tab } from "@/components/Tab";
 import { useCookies } from "react-cookie";
+import React from "react";
 
-export default function Favorite() {
+function Favorite() {
+// export default function Favorite() {
   const [favoriteIds, setFavoriteIds] = useAtom(favoriteIdAtom);
   const [favoriteList, setFavoriteList] = useAtom(favoriteListAtom);
 
@@ -29,25 +31,48 @@ cookie
     [favoriteIds]
   );
 
-  //画面遷移時にcookie情報を取得
-  const loadCookie = () => {
-    //お気に入りがゼロの場合はcookieを取得してfavoriteIdsに反映
-    let CookiesOfFavoriteIds = cookie.CookiesOfFavoriteIds;
+  // //画面遷移時にcookie情報を取得
+  // const loadCookie = () => {
+  //   //お気に入りがゼロの場合はcookieを取得してfavoriteIdsに反映
+  //   let CookiesOfFavoriteIds = cookie.CookiesOfFavoriteIds;
+    
+  //   if (CookiesOfFavoriteIds === undefined) {
+  //     CookiesOfFavoriteIds = [];
+  //     return CookiesOfFavoriteIds;
+  //   }
+  //   return CookiesOfFavoriteIds;
+  // };
 
-    if (CookiesOfFavoriteIds === undefined) {
-      CookiesOfFavoriteIds = [];
-      setFavoriteIds(CookiesOfFavoriteIds);
-    } else {
-      setFavoriteIds(CookiesOfFavoriteIds);
-    }
-  };
+  // // ロード実行
+  // // cookieは空配列（[]、数値では「%5B%5D」）で正常
+  // // 空配列（[]、数値では「%5B%5D」）まで削除するとエラー
+  // useEffect(() => {
+  //   const CookiesOfFavoriteIds = loadCookie();
+  //   setFavoriteIds(CookiesOfFavoriteIds)
+  // }, []);
 
-  // ロード実行
-  // cookieは空配列（[]、数値では「%5B%5D」）で正常
-  // 空配列（[]、数値では「%5B%5D」）まで削除するとエラー
-  useEffect(() => {
-    loadCookie();
-  }, []);
+    //画面遷移時にcookie情報を取得
+    const loadCookie = () => {
+      //お気に入りがゼロの場合はcookieを取得してfavoriteIdsに反映
+      let CookiesOfFavoriteIds = cookie.CookiesOfFavoriteIds;
+  
+      if (CookiesOfFavoriteIds === undefined) {
+        CookiesOfFavoriteIds = [];
+        setFavoriteIds(CookiesOfFavoriteIds);
+      } else {
+        setFavoriteIds(CookiesOfFavoriteIds);
+      }
+      setFavoriteIds(CookiesOfFavoriteIds);
+    };
+  
+    // ロード実行
+    // cookieは空配列（[]、数値では「%5B%5D」）で正常
+    // 空配列（[]、数値では「%5B%5D」）まで削除するとエラー
+    useEffect(() => {
+      loadCookie();
+      console.log(favoriteIds);
+      
+    }, [favoriteIds]);
 
   /*/
 cookie  
@@ -77,10 +102,12 @@ cookie
     }
   };
 
+  
+  
   //お気に入りに登録した情報を取得（API送信・受信の関数）
   const getFavoriteData = async () => {
     const arrIds = favoriteIds.join(",");
-
+    
     //APIリンク
     const endpoint = "https://api.annict.com/v1/works";
 
@@ -90,19 +117,28 @@ cookie
     //ソート:人気順
     const sort = "sort_watchers_count=desc";
 
+
     //fetch()→非同期通信を使ってリクエストとレスポンス取得を行う
     //パラメータ参照（https://developers.annict.com/docs/rest-api/v1/works）
     const res = await fetch(
       `${endpoint}/?filter_ids=${arrIds}&${sort}&access_token=${access_token}`
     );
 
+    console.log('getFavoriteDataId' ,favoriteIds);    
+    console.log('getFavoriteDataList' ,favoriteList); 
+    
+
     //json形式にする
     const data = await res.json();
     return data;
   };
 
-  //お気に入りのリストを作成
+  // //お気に入りのリストを作成
   const getFavoriteList = async () => {
+    if(favoriteIds.length = 0){
+      return
+    }
+
     const data = await getFavoriteData();
     const newFavoriteList = data;
     setFavoriteList(newFavoriteList.works);
@@ -111,8 +147,21 @@ cookie
   //loadCookieは入れない（ループが発生するため）
   //favoriteIdsが変わるたびに新たにお気に入りリストを更新する。お気に入り画面からの削除も可能
   useEffect(() => {
+    // console.log('favoriteIds' ,favoriteIds);    
+    // if(favoriteIds.length = 0){
+    //   return
+    // }
     getFavoriteList();
+    // console.log('favoriteList' ,favoriteList); 
   }, [favoriteIds]);
+
+  // //loadCookieは入れない（ループが発生するため）
+  // //favoriteIdsが変わるたびに新たにお気に入りリストを更新する。お気に入り画面からの削除も可能
+  // useEffect(() => {
+  //   console.log('favoriteIds' ,favoriteIds);    
+  //   console.log('favoriteList' ,favoriteList); 
+  //   getFavoriteList();
+  // }, [favoriteIds]);
 
   return (
     <section>
@@ -384,3 +433,4 @@ cookie
     </section>
   );
 }
+export default React.memo(Favorite);

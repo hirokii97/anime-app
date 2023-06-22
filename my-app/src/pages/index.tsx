@@ -13,6 +13,7 @@ import { useAtom, useSetAtom } from "jotai";
 import { animeAtom } from "@/atoms";
 import { favoriteIdAtom, favoriteListAtom } from "./atoms";
 import { useCookies } from "react-cookie";
+import { log } from "console";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -93,6 +94,8 @@ cookie
       addCookie(cleanAddId);
     }
   };
+
+  
 
   //お気に入りに登録した情報を取得（API送信・受信の関数）
   const getFavoriteData = async () => {
