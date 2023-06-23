@@ -1,78 +1,56 @@
-import { useCallback, useEffect } from "react";
-import type { Anime } from "../../types/animes";
-import { useAtom } from "jotai";
-import { favoriteIdAtom, favoriteListAtom } from "../atoms";
-import { Tab } from "@/components/Tab";
-import { useCookies } from "react-cookie";
-import React from "react";
+import { useCallback, useEffect } from "react"
+import type { Anime } from "../../types/animes"
+import { useAtom } from "jotai"
+import { favoriteIdAtom, favoriteListAtom } from "../atoms"
+import { Tab } from "@/components/Tab"
+import { useCookies } from "react-cookie"
+import React from "react"
 
 function Favorite() {
-// export default function Favorite() {
-  const [favoriteIds, setFavoriteIds] = useAtom(favoriteIdAtom);
-  const [favoriteList, setFavoriteList] = useAtom(favoriteListAtom);
 
- /*///////////
+  const [favoriteIds, setFavoriteIds] = useAtom(favoriteIdAtom)
+  const [favoriteList, setFavoriteList] = useAtom(favoriteListAtom)
+
+  /*///////////
 cookie  
 */
 
   //react-cookieの設定
-  const [cookie, setCookie] = useCookies(["CookiesOfFavoriteIds"]);
+  const [cookie, setCookie] = useCookies(["CookiesOfFavoriteIds"])
 
   //react-cookiesに登録
   const addCookie = useCallback(
     (ids: number[]) => {
-      const newFavoriteIds = [...ids];
+      const newFavoriteIds = [...ids]
 
       setCookie("CookiesOfFavoriteIds", newFavoriteIds, {
         path: "/",
         maxAge: 2592000,
-      });
+      })
     },
-    [favoriteIds]
-  );
+    [favoriteIds],
+  )
 
-  // //画面遷移時にcookie情報を取得
-  // const loadCookie = () => {
-  //   //お気に入りがゼロの場合はcookieを取得してfavoriteIdsに反映
-  //   let CookiesOfFavoriteIds = cookie.CookiesOfFavoriteIds;
-    
-  //   if (CookiesOfFavoriteIds === undefined) {
-  //     CookiesOfFavoriteIds = [];
-  //     return CookiesOfFavoriteIds;
-  //   }
-  //   return CookiesOfFavoriteIds;
-  // };
+  //画面遷移時にcookie情報を取得
+  const loadCookie = () => {
+    //お気に入りがゼロの場合はcookieを取得してfavoriteIdsに反映
+    let CookiesOfFavoriteIds = cookie.CookiesOfFavoriteIds
 
-  // // ロード実行
-  // // cookieは空配列（[]、数値では「%5B%5D」）で正常
-  // // 空配列（[]、数値では「%5B%5D」）まで削除するとエラー
-  // useEffect(() => {
-  //   const CookiesOfFavoriteIds = loadCookie();
-  //   setFavoriteIds(CookiesOfFavoriteIds)
-  // }, []);
+    if (CookiesOfFavoriteIds === undefined) {
+      CookiesOfFavoriteIds = []
+      setFavoriteIds(CookiesOfFavoriteIds)
+    } else {
+      setFavoriteIds(CookiesOfFavoriteIds)
+    }
+    setFavoriteIds(CookiesOfFavoriteIds)
+  }
 
-    //画面遷移時にcookie情報を取得
-    const loadCookie = () => {
-      //お気に入りがゼロの場合はcookieを取得してfavoriteIdsに反映
-      let CookiesOfFavoriteIds = cookie.CookiesOfFavoriteIds;
-  
-      if (CookiesOfFavoriteIds === undefined) {
-        CookiesOfFavoriteIds = [];
-        setFavoriteIds(CookiesOfFavoriteIds);
-      } else {
-        setFavoriteIds(CookiesOfFavoriteIds);
-      }
-      setFavoriteIds(CookiesOfFavoriteIds);
-    };
-  
-    // ロード実行
-    // cookieは空配列（[]、数値では「%5B%5D」）で正常
-    // 空配列（[]、数値では「%5B%5D」）まで削除するとエラー
-    useEffect(() => {
-      loadCookie();
-      console.log('loadCookie' , favoriteIds);
-      
-    }, [favoriteIds]);
+  // ロード実行
+  // cookieは空配列（[]、数値では「%5B%5D」）で正常
+  // 空配列（[]、数値では「%5B%5D」）まで削除するとエラー
+  useEffect(() => {
+    loadCookie()
+  }, [favoriteIds])
 
   /*/
 cookie  
@@ -81,87 +59,62 @@ cookie
   const onClickFavorites: React.Dispatch<number> = (id: number) => {
     //お気に入り削除用の配列を再定義（stateの更新は関数実行後のため、再定義　＋　filterでidを除いた配列を再生成）
     const delateId = favoriteIds.filter(
-      (favoriteId: number) => favoriteId !== id
-    );
-    const cleanDelateId = delateId.filter((v) => v);
+      (favoriteId: number) => favoriteId !== id,
+    )
+    const cleanDelateId = delateId.filter((v) => v)
 
     //お気に入り追加用の配列を再定義（stateの更新は関数実行後のため、再定義）
-    const addId = [...favoriteIds, id];
-    const cleanAddId = addId.filter((v) => v);
+    const addId = [...favoriteIds, id]
+    const cleanAddId = addId.filter((v) => v)
 
     //お気に入り(favorite)にidが入っている場合
     if (favoriteIds.includes(id)) {
-      setFavoriteIds(cleanDelateId);
+      setFavoriteIds(cleanDelateId)
       addCookie(cleanDelateId)
-
 
       //お気に入りに追加（スプレット構文で配列に追加）
     } else {
-      setFavoriteIds(cleanAddId);
+      setFavoriteIds(cleanAddId)
       addCookie(cleanAddId)
     }
-  };
+  }
 
-  
-  
   //お気に入りに登録した情報を取得（API送信・受信の関数）
   const getFavoriteData = async () => {
+    const arrIds = favoriteIds.join(",")
 
-    const arrIds = favoriteIds.join(",");
-    
     //APIリンク
-    const endpoint = "https://api.annict.com/v1/works";
+    const endpoint = "https://api.annict.com/v1/works"
 
     //APIトークン
-    const access_token = "UVol8sjtyTLqvvAtJTRageHvztFssfsdPG3AYAoPXHY";
+    const access_token = "UVol8sjtyTLqvvAtJTRageHvztFssfsdPG3AYAoPXHY"
 
     //ソート:人気順
-    const sort = "sort_watchers_count=desc";
-
+    const sort = "sort_watchers_count=desc"
 
     //fetch()→非同期通信を使ってリクエストとレスポンス取得を行う
     //パラメータ参照（https://developers.annict.com/docs/rest-api/v1/works）
     const res = await fetch(
-      `${endpoint}/?filter_ids=${arrIds}&${sort}&access_token=${access_token}`
-    );
-
-    console.log('getFavoriteDataId' ,favoriteIds);    
-    console.log('getFavoriteDataList' ,favoriteList); 
-    
+      `${endpoint}/?filter_ids=${arrIds}&${sort}&access_token=${access_token}`,
+    )
 
     //json形式にする
-    const data = await res.json();
-    return data;
-  };
+    const data = await res.json()
+    return data
+  }
 
   // //お気に入りのリストを作成
   const getFavoriteList = async () => {
-    
-    const data = await getFavoriteData();
-    const newFavoriteList = data;
-    setFavoriteList(newFavoriteList.works);
-  };
-  
+    const data = await getFavoriteData()
+    const newFavoriteList = data
+    setFavoriteList(newFavoriteList.works)
+  }
 
   //loadCookieは入れない（ループが発生するため）
   //favoriteIdsが変わるたびに新たにお気に入りリストを更新する。お気に入り画面からの削除も可能
   useEffect(() => {
-    // console.log('favoriteIds' ,favoriteIds);    
-    // if(favoriteIds.length = 0){
-    //   return
-    // }
-    getFavoriteList();
-    console.log('useEffectfavoriteList' ,favoriteList); 
-  }, [favoriteIds]);
-
-  // //loadCookieは入れない（ループが発生するため）
-  // //favoriteIdsが変わるたびに新たにお気に入りリストを更新する。お気に入り画面からの削除も可能
-  // useEffect(() => {
-  //   console.log('favoriteIds' ,favoriteIds);    
-  //   console.log('favoriteList' ,favoriteList); 
-  //   getFavoriteList();
-  // }, [favoriteIds]);
-
+    getFavoriteList()
+  }, [favoriteIds])
 
   return (
     <section>
@@ -200,9 +153,9 @@ cookie
                   //取得した画像がエラーの場合の処理
                   onError={(e) => {
                     // 無限ループさせないためのnull設定
-                    e.target.onError = null;
+                    e.target.onError = null
                     //　エラー時にno-img画像を指定
-                    e.target.src = "../img/no-image.jpg";
+                    e.target.src = "../img/no-image.jpg"
                   }}
                 />
               </div>
@@ -233,7 +186,7 @@ cookie
                   <div>
                     <button
                       onClick={(e) => {
-                        onClickFavorites(list.id);
+                        onClickFavorites(list.id)
                       }}
                       className="favorite_button"
                     >
@@ -291,9 +244,6 @@ cookie
             max-width: 300px;
             width: 100%;
             border: black 1px solid;
-             {
-              /* max-width: 400px; */
-            }
           }
 
           .result__menu {
@@ -339,9 +289,6 @@ cookie
           .result__watchers_count.c-icon {
             max-width: 50px;
             margin-left: 120px;
-             {
-              /* margin-left: 220px; */
-            }
           }
 
           .result__box {
@@ -362,37 +309,11 @@ cookie
             text-align: center;
             max-width: 300px;
             max-height: 157px;
-             {
-              /* max-width: 400px;
-            max-height: 210px; */
-            }
-          }
-
-           {
-            /* @media screen and (max-width: 500px) {
-            .result__image {
-              max-width: 350px;
-              max-height: 184px;
-            }
-          } */
           }
 
           .result__image img {
             max-width: 300px;
             max-height: 157px;
-             {
-              /* max-width: 400px;
-            max-height: 210px; */
-            }
-          }
-
-           {
-            /* @media screen and (max-width: 500px) {
-            .result__image img {
-              max-width: 350px;
-              max-height: 184px;
-            }
-          } */
           }
 
           .result__detail {
@@ -431,6 +352,6 @@ cookie
         `}
       </style>
     </section>
-  );
+  )
 }
-export default React.memo(Favorite);
+export default React.memo(Favorite)

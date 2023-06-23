@@ -13,7 +13,6 @@ import { useAtom, useSetAtom } from "jotai";
 import { animeAtom } from "@/atoms";
 import { favoriteIdAtom, favoriteListAtom } from "./atoms";
 import { useCookies } from "react-cookie";
-import { log } from "console";
 
 const inter = Inter({ subsets: ["latin"] });
 

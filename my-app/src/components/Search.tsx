@@ -55,10 +55,6 @@ export const Search = (props:any) => {
     props.setResult(animeList);
   }, [animeList]);
 
-  // const handleYear = (e: any) => {
-  //   setYear(e.target.value);
-  //   console.log("handleYear", "a");
-  // };
   const handleSeason = (e: any) => {
     setSeason(e.target.value);
   };
