@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from "react";
-import type { Anime } from "../types/animes";
+import type { Anime } from "../../types/animes";
 import { useAtom } from "jotai";
-import { favoriteIdAtom, favoriteListAtom } from "./atoms";
+import { favoriteIdAtom, favoriteListAtom } from "../atoms";
 import { Tab } from "@/components/Tab";
 import { useCookies } from "react-cookie";
 import React from "react";
@@ -70,7 +70,7 @@ cookie
     // 空配列（[]、数値では「%5B%5D」）まで削除するとエラー
     useEffect(() => {
       loadCookie();
-      console.log(favoriteIds);
+      console.log('loadCookie' , favoriteIds);
       
     }, [favoriteIds]);
 
@@ -106,6 +106,7 @@ cookie
   
   //お気に入りに登録した情報を取得（API送信・受信の関数）
   const getFavoriteData = async () => {
+
     const arrIds = favoriteIds.join(",");
     
     //APIリンク
@@ -135,14 +136,12 @@ cookie
 
   // //お気に入りのリストを作成
   const getFavoriteList = async () => {
-    if(favoriteIds.length = 0){
-      return
-    }
-
+    
     const data = await getFavoriteData();
     const newFavoriteList = data;
     setFavoriteList(newFavoriteList.works);
   };
+  
 
   //loadCookieは入れない（ループが発生するため）
   //favoriteIdsが変わるたびに新たにお気に入りリストを更新する。お気に入り画面からの削除も可能
@@ -152,7 +151,7 @@ cookie
     //   return
     // }
     getFavoriteList();
-    // console.log('favoriteList' ,favoriteList); 
+    console.log('useEffectfavoriteList' ,favoriteList); 
   }, [favoriteIds]);
 
   // //loadCookieは入れない（ループが発生するため）
@@ -162,6 +161,7 @@ cookie
   //   console.log('favoriteList' ,favoriteList); 
   //   getFavoriteList();
   // }, [favoriteIds]);
+
 
   return (
     <section>

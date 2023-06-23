@@ -10,7 +10,7 @@ export const Tab = () => {
   return (
     
       <div className={classes.nav}>
-        <Link href="/Favorite" className={favoriteClasses}>
+        <Link href="/favorite" className={favoriteClasses}>
           <Image
             src="/img/icon_favorite-active.png"
             alt=""
