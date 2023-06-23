@@ -1,5 +1,6 @@
 import { Anime } from "@/types/animes"
 import { useEffect, useState } from "react"
+import Image from "next/image"
 
 export const Search = (props: any) => {
   const { setAnimeList } = props
@@ -106,7 +107,7 @@ export const Search = (props: any) => {
           />
         </label>
         <button onClick={onSearch} aria-label="検索" type="button">
-          <img src="../img/search.png" alt="" />
+          <Image src="/img/search.png" alt="" width={30} height={30} />
         </button>
       </form>
 
