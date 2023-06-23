@@ -1,15 +1,12 @@
 import { Anime } from "@/types/animes"
 import { SetStateAction, useCallback, useEffect, useState } from "react"
-import { useCookies } from "react-cookie"
 import classes from "src/components/Result/Result.module.css"
-import classNames from "classnames"
 import Image from "next/image"
-import { useAtom, useSetAtom } from "jotai"
 import { useFavorite } from "@/hooks/useFavorite"
+import { useCookieFunction } from "@/hooks/useCookieFunction"
 
 type Props = {
   animeList: Anime[]
-  favoriteList: Anime[]
 }
 
 //既存のReactモジュールを開いて新しい型を追加する
@@ -25,8 +22,6 @@ export const Result = (props: Props) => {
   const { favoriteList, handleClickFavorite } = useFavorite()
   const { animeList } = props
 
-  // result→favoriteの表示を完成させるその後にcookie
-
   return (
     <section>
       <div className={classes.result__wrapper}>
@@ -36,8 +31,8 @@ export const Result = (props: Props) => {
             (x: { id: number }) => x.id === anime.id,
           )
           const favoriteIcon = isFavorite
-            ? "../img/icon_favorite-active.png"
-            : "../img/icon_favorite-no-active.png"
+            ? "/img/icon_favorite-active.png"
+            : "/img/icon_favorite-no-active.png"
 
           return (
             <div className={classes.result__box} key={anime.id}>
@@ -48,8 +43,8 @@ export const Result = (props: Props) => {
                 <div
                   className={`${classes.cIcon} ${classes.result__watchers_count}`}
                 >
-                  <img
-                    src="@/../img/icon__result-watchers-count.png"
+                  <Image
+                    src="/img/icon__result-watchers-count.png"
                     alt="見てる ・ 見たい ・ 見た人の数"
                     width={30}
                     height={30}
@@ -61,8 +56,8 @@ export const Result = (props: Props) => {
                 <div
                   className={`${classes.cIcon} ${classes.result__reviews_count}`}
                 >
-                  <img
-                    src="../img/icon__result-reviews-count.png"
+                  <Image
+                    src="/img/icon__result-reviews-count.png"
                     alt="レビュー数"
                     width={30}
                     height={30}
@@ -78,15 +73,17 @@ export const Result = (props: Props) => {
                     anime.images.recommended_url ||
                     anime.images.facebook.og_image_url ||
                     anime.images.twitter.image_url ||
-                    "../img/no-image.jpg"
+                    "/img/no-image.jpg"
                   }
                   alt=""
+                  width={300}
+                  height={157}
                   //取得した画像がエラーの場合の処理
                   onError={(e) => {
                     // 無限ループさせないためのnull設定
                     e.target.onError = null
                     //　エラー時にno-img画像を指定
-                    e.target.src = "../img/no-image.jpg"
+                    e.target.src = "/img/no-image.jpg"
                     return
                   }}
                 />
@@ -111,8 +108,8 @@ export const Result = (props: Props) => {
                       className={classes.result__detail_twitter}
                       href={`https://twitter.com/${anime.twitter_username}`}
                     >
-                      <img
-                        src="../img/icon__result-detail_twitter.png"
+                      <Image
+                        src="/img/icon__result-detail_twitter.png"
                         alt=""
                         width={30}
                         height={30}
@@ -127,7 +124,12 @@ export const Result = (props: Props) => {
                       }}
                       className={classes.favorite_button}
                     >
-                      <img src={favoriteIcon} alt="お気に入りボタン" />
+                      <Image
+                        src={favoriteIcon}
+                        alt="お気に入りボタン"
+                        width={30}
+                        height={30}
+                      />
                     </button>
                   </div>
                 </div>
