@@ -79,29 +79,29 @@ cookie
     }
   }
 
-  //お気に入りに登録した情報を取得（API送信・受信の関数）
-  const getFavoriteData = async () => {
-    const arrIds = favoriteIds.join(",")
+  // //お気に入りに登録した情報を取得（API送信・受信の関数）
+  // const getFavoriteData = async () => {
+  //   const arrIds = favoriteIds.join(",")
 
-    //APIリンク
-    const endpoint = "https://api.annict.com/v1/works"
+  //   //APIリンク
+  //   const endpoint = "https://api.annict.com/v1/works"
 
-    //APIトークン
-    const access_token = "UVol8sjtyTLqvvAtJTRageHvztFssfsdPG3AYAoPXHY"
+  //   //APIトークン
+  //   const access_token = "UVol8sjtyTLqvvAtJTRageHvztFssfsdPG3AYAoPXHY"
 
-    //ソート:人気順
-    const sort = "sort_watchers_count=desc"
+  //   //ソート:人気順
+  //   const sort = "sort_watchers_count=desc"
 
-    //fetch()→非同期通信を使ってリクエストとレスポンス取得を行う
-    //パラメータ参照（https://developers.annict.com/docs/rest-api/v1/works）
-    const res = await fetch(
-      `${endpoint}/?filter_ids=${arrIds}&${sort}&access_token=${access_token}`,
-    )
+  //   //fetch()→非同期通信を使ってリクエストとレスポンス取得を行う
+  //   //パラメータ参照（https://developers.annict.com/docs/rest-api/v1/works）
+  //   const res = await fetch(
+  //     `${endpoint}/?filter_ids=${arrIds}&${sort}&access_token=${access_token}`,
+  //   )
 
-    //json形式にする
-    const data = await res.json()
-    return data
-  }
+  //   //json形式にする
+  //   const data = await res.json()
+  //   return data
+  // }
 
   // //お気に入りのリストを作成
   const getFavoriteList = async () => {
