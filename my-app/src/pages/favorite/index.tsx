@@ -56,28 +56,28 @@ cookie
 cookie  
 */ ///////////
 
-  const onClickFavorites: React.Dispatch<number> = (id: number) => {
-    //お気に入り削除用の配列を再定義（stateの更新は関数実行後のため、再定義　＋　filterでidを除いた配列を再生成）
-    const delateId = favoriteIds.filter(
-      (favoriteId: number) => favoriteId !== id,
-    )
-    const cleanDelateId = delateId.filter((v) => v)
+  // const onClickFavorites: React.Dispatch<number> = (id: number) => {
+  //   //お気に入り削除用の配列を再定義（stateの更新は関数実行後のため、再定義　＋　filterでidを除いた配列を再生成）
+  //   const delateId = favoriteIds.filter(
+  //     (favoriteId: number) => favoriteId !== id,
+  //   )
+  //   const cleanDelateId = delateId.filter((v) => v)
 
-    //お気に入り追加用の配列を再定義（stateの更新は関数実行後のため、再定義）
-    const addId = [...favoriteIds, id]
-    const cleanAddId = addId.filter((v) => v)
+  //   //お気に入り追加用の配列を再定義（stateの更新は関数実行後のため、再定義）
+  //   const addId = [...favoriteIds, id]
+  //   const cleanAddId = addId.filter((v) => v)
 
-    //お気に入り(favorite)にidが入っている場合
-    if (favoriteIds.includes(id)) {
-      setFavoriteIds(cleanDelateId)
-      addCookie(cleanDelateId)
+  //   //お気に入り(favorite)にidが入っている場合
+  //   if (favoriteIds.includes(id)) {
+  //     setFavoriteIds(cleanDelateId)
+  //     addCookie(cleanDelateId)
 
-      //お気に入りに追加（スプレット構文で配列に追加）
-    } else {
-      setFavoriteIds(cleanAddId)
-      addCookie(cleanAddId)
-    }
-  }
+  //     //お気に入りに追加（スプレット構文で配列に追加）
+  //   } else {
+  //     setFavoriteIds(cleanAddId)
+  //     addCookie(cleanAddId)
+  //   }
+  // }
 
   // //お気に入りに登録した情報を取得（API送信・受信の関数）
   // const getFavoriteData = async () => {
@@ -103,12 +103,12 @@ cookie
   //   return data
   // }
 
-  // //お気に入りのリストを作成
-  const getFavoriteList = async () => {
-    const data = await getFavoriteData()
-    const newFavoriteList = data
-    setFavoriteList(newFavoriteList.works)
-  }
+  // // //お気に入りのリストを作成
+  // const getFavoriteList = async () => {
+  //   const data = await getFavoriteData()
+  //   const newFavoriteList = data
+  //   setFavoriteList(newFavoriteList.works)
+  // }
 
   //loadCookieは入れない（ループが発生するため）
   //favoriteIdsが変わるたびに新たにお気に入りリストを更新する。お気に入り画面からの削除も可能

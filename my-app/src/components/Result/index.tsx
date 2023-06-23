@@ -6,6 +6,8 @@ import classNames from "classnames";
 import Image from "next/image";
 import { useAtom, useSetAtom } from "jotai";
 import { favoriteIdAtom } from "@/pages/atoms";
+import { useFavorite } from "@/hooks/useFavorite";
+
 
 type Props = {
   result: Anime[];
@@ -25,7 +27,7 @@ declare module "react" {
 }
 
 export const Result = (props: any) => {
-  const { result, onClickFavorites, getFavoriteList } = props;
+  const { favoriteIdList , handleClickFavorite} = useFavorite()
   const [favoriteIds, setFavoriteIds] = useAtom(favoriteIdAtom);
   
 
@@ -117,8 +119,7 @@ export const Result = (props: any) => {
                 <div>
                   <button
                     onClick={() => {
-                      onClickFavorites(list.id);
-                      getFavoriteList(list.id);
+                      handleClickFavorite(list.id);
                     }}
                     className={classes.favorite_button}
                   >
