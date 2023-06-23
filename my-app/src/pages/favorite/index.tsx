@@ -3,12 +3,21 @@ import type { Anime } from "../../types/animes"
 import { useAtom } from "jotai"
 import { favoriteListAtom } from "../atoms"
 import { Tab } from "@/components/Tab"
-import { useCookies } from "react-cookie"
 import React from "react"
 import { Result } from "@/components/Result"
+import { useCookieFunction } from "@/hooks/useCookieFunction"
 
 function Favorite() {
   const [favoriteList, setFavoriteList] = useAtom(favoriteListAtom)
+  // const { addCookie, loadCookie } = useCookieFunction()
+
+  // useEffect(() => {
+  //   loadCookie()
+  // }, [])
+
+  // useEffect(() => {
+  //   addCookie()
+  // }, [favoriteList])
 
   return (
     <section>
