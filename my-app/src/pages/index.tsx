@@ -30,9 +30,6 @@ function Home() {
     })
   }
  
-    const yourFavoriteList = cookie.CookiesList
-    setFavoriteList(yourFavoriteList)
-  
 
   useEffect(() => {
     addCookie()
