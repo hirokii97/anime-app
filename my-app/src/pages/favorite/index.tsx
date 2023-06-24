@@ -10,7 +10,11 @@ import { useCookies } from "react-cookie"
 
 function Favorite() {
   const [favoriteList, setFavoriteList] = useAtom(favoriteListAtom)
-  const [cookie, setCookie] = useCookies(["CookiesList"]) //react-cookieの設定
+  const { loadCookie } = useCookieFunction()
+
+  useEffect(() => {
+    loadCookie()
+  }, [])
 
   return (
     <section>
