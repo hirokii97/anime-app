@@ -1,6 +1,7 @@
 import { Anime } from "@/types/animes"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import Image from "next/image"
+import React from "react"
 
 export const Search = (props: any) => {
   const { setAnimeList } = props
@@ -64,6 +65,17 @@ export const Search = (props: any) => {
     setFilterSeason(getFilterSeason())
   }, [year, season])
 
+  // 画面遷移後、検索ボタンを押す
+  const buttonRef = useRef<any>()
+
+  const firstClick = () => {
+    buttonRef.current.click()
+  }
+
+  useEffect(() => {
+    firstClick()
+  }, [])
+
   return (
     <section>
       <label className="selectbox-002">
@@ -106,7 +118,15 @@ export const Search = (props: any) => {
             placeholder="キーワードを入力"
           />
         </label>
-        <button onClick={onSearch} aria-label="検索" type="button">
+        <button
+          onClick={() => {
+            onSearch()
+            firstClick
+          }}
+          ref={buttonRef}
+          aria-label="検索"
+          type="button"
+        >
           <Image src="/img/search.png" alt="" width={30} height={30} />
         </button>
       </form>
