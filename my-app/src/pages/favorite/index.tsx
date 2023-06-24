@@ -6,18 +6,11 @@ import { Tab } from "@/components/Tab"
 import React from "react"
 import { Result } from "@/components/Result"
 import { useCookieFunction } from "@/hooks/useCookieFunction"
+import { useCookies } from "react-cookie"
 
 function Favorite() {
   const [favoriteList, setFavoriteList] = useAtom(favoriteListAtom)
-  // const { addCookie, loadCookie } = useCookieFunction()
-
-  // useEffect(() => {
-  //   loadCookie()
-  // }, [])
-
-  // useEffect(() => {
-  //   addCookie()
-  // }, [favoriteList])
+  const [cookie, setCookie] = useCookies(["CookiesList"]) //react-cookieの設定
 
   return (
     <section>

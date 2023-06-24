@@ -1,9 +1,11 @@
 import { getFavoriteData } from "@/lib/getFavoriteData"
 import { favoriteListAtom } from "@/pages/atoms"
 import { useAtom } from "jotai"
+import { useCookieFunction } from "./useCookieFunction"
 
 export const useFavorite = () => {
   const [favoriteList, setFavoriteList] = useAtom(favoriteListAtom)
+  const { addCookie } = useCookieFunction()
 
   const handleClickFavorite = async (id: number) => {
     // favoriteListのIDとクリックしたidが一致した場合
@@ -14,9 +16,14 @@ export const useFavorite = () => {
     }
     const newFavoriteIdList = favoriteList.map((x) => x.id).concat(id)
     const favoriteData = await getFavoriteData(newFavoriteIdList)
+    addCookie(newFavoriteIdList)
 
     setFavoriteList(favoriteData.works)
   }
 
-  return { favoriteList, setFavoriteList, handleClickFavorite }
+  return {
+    favoriteList,
+    setFavoriteList,
+    handleClickFavorite,
+  }
 }

@@ -1,25 +1,28 @@
 import { favoriteListAtom } from "@/pages/atoms"
+import { Anime } from "@/types/animes"
 import { useAtom } from "jotai"
 import { useEffect } from "react"
 import { useCookies } from "react-cookie"
+import { getFavoriteData } from "@/lib/getFavoriteData"
 
 export const useCookieFunction = () => {
   const [favoriteList, setFavoriteList] = useAtom(favoriteListAtom)
-  const [cookie, setCookie] = useCookies(["CookiesOfFavoriteList"]) //react-cookieの設定
+  const [cookie, setCookie] = useCookies(["CookiesFavoriteId"]) //react-cookieの設定
 
-  const addCookie = (id: number) => {
-    //react-cookiesに登録
-    const yourCookies = cookie.CookiesOfFavoriteList
-    const newCookies = yourCookies.concat(id)
-    setCookie("CookiesOfFavoriteList", newCookies, {
+  const addCookie = (newFavoriteIdList: number[]) => {
+    setCookie("CookiesFavoriteId", newFavoriteIdList, {
       maxAge: 2592000,
       path: "/",
     })
   }
-  const loadCookie = () => {
-    //お気に入りがゼロの場合はcookieを取得してfavoriteListに反映
-    const yourFavoriteList = cookie.CookiesOfFavoriteList
-    setFavoriteList(yourFavoriteList)
+  const loadCookie = async () => {
+    let CookieFavoriteId = cookie.CookiesFavoriteId
+
+    if (CookieFavoriteId === undefined) {
+      CookieFavoriteId = []
+    }
+    const CookieFavoriteList = await getFavoriteData(CookieFavoriteId)
+    setFavoriteList(CookieFavoriteList.works)
   }
   return { addCookie, loadCookie, favoriteList }
 }

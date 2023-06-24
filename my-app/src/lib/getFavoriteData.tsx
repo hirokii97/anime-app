@@ -1,5 +1,9 @@
+import { favoriteListAtom } from "@/pages/atoms";
+
 //お気に入りに登録した情報を取得（API送信・受信の関数）
 export const getFavoriteData = async (favoriteIdList: number[]) => {
+  console.log(favoriteIdList);
+  
   //APIリンク
   const endpoint = "https://api.annict.com/v1/works"
 

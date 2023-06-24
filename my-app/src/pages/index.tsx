@@ -12,6 +12,7 @@ import { Search } from "@/components/Search"
 import { useCookies } from "react-cookie"
 import { useAtom } from "jotai"
 import { favoriteListAtom } from "./atoms"
+import { useCookieFunction } from "@/hooks/useCookieFunction"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -19,22 +20,11 @@ const inter = Inter({ subsets: ["latin"] })
 function Home() {
   //検索した内容を’Search’から’Result’へ受け渡す
   const [animeList, setAnimeList] = useState<Anime[]>([])
-  const [favoriteList, setFavoriteList] = useAtom(favoriteListAtom)
-  const [cookie, setCookie] = useCookies(["CookiesList"]) //react-cookieの設定
-
-  const addCookie = () => {
-    //react-cookiesに登録
-    setCookie("CookiesList", favoriteList, {
-      maxAge: 2592000,
-      path: "/",
-    })
-  }
- 
+  const { loadCookie } = useCookieFunction()
 
   useEffect(() => {
-    addCookie()
-  }, [favoriteList])
-
+    loadCookie()
+  }, [])
 
   return (
     <>
