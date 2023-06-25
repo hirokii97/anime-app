@@ -30,7 +30,7 @@ function Home() {
     <>
       <HeadLine />
       <main className={`${styles.main} ${inter.className}`}>
-        <h1>アニメ検索サイト</h1>
+        <h1 className="title">Watch Anime</h1>
         <div className={styles.description}></div>
         <Search setAnimeList={setAnimeList} />
         <Result animeList={animeList} />

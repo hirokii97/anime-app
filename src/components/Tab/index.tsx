@@ -17,12 +17,12 @@ export const Tab = () => {
             width={36}
             height={36}
           />
-          <p>お気に入り</p>
+          <p></p>
         </Link>
 
         <Link href="/" className={searchClasses}>
           <Image src="/img/search.png" alt="" width={36} height={36} />
-          <p>検索</p>
+          <p></p>
         </Link>
       </div>
     

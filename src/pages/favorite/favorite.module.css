@@ -1,121 +1,15 @@
-.result__wrapper {
+.h1 {
+  line-height: 30px;
+  text-align: center;
+  font-size: 48px;
+}
+.favorite__wrapper {
   max-width: 1280px;
-  margin: 48px auto;
+  margin: 10px auto;
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
-  gap: 48px;
-}
-
-.result__box {
-  max-width: 400px;
-  width: 100%;
-  /* border: black 1px solid; */
-}
-
-.result__menu {
-  display: flex;
-  align-items: center;
-  max-width: 500px;
-  width: 100%;
-  /* height: 50px; */
-  padding: 5px 10px;
-}
-
-/* タグ（TV・映画） */
-
-.result__media {
-  /* height: 20px; */
-  max-width: 50px;
-  width: 100%;
-  padding: 8px 10px;
-  border-radius: 5px;
-  background-color: #2589d0;
-  color: white;
-  margin-left: 5px;
-  text-align: center;
-  flex: 1;
-}
-
-.cIcon {
-  text-align: center;
-  height: 50px;
-  width: 50px;
-}
-.cIcon img {
-  width: 25px;
-  height: 25px;
-}
-
-.cIcon_text {
-  font-size: 14px;
-}
-
-.result__watchers_count.cIcon {
-  max-width: 50px;
-  margin-left: 120px;
-}
-
-.result__box p {
-  margin: 10px 0px 0px 0px;
-}
-.result__box {
-  border-radius: 5px;
-  max-width: 300px;
-  width: 100%;
-  /* border: black 1px solid; */
-  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, .5);
-  border-radius: 10px;
-  
-}
-
-.result__detail_title {
-  text-align: center;
-  font-size: 18px;
-  font-weight: 600;
-}
-
-.result__image {
-  text-align: center;
-  max-width: 300px;
-  max-height: 157px;
-  /* max-width: 400px;
-  max-height: 210px; */
-}
-.result__image img {
-  max-width: 300px;
-  max-height: 157px;
-  /* max-width: 400px;
-  max-height: 210px; */
-}
-
-.result__detail {
-  padding: 0px 20px 5px;
-}
-
-.result__detail_link {
-  display: flex;
-  justify-content: space-between;
-  height: 60px;
-  align-items: center;
-  width: 200px;
-  margin: 0 auto;
-}
-
-.result__detail_url {
-  display: inline-block;
-  box-sizing: border-box;
-  height: 40px;
-  border-radius: 10px;
-  padding: 7px 10px;
-  background-color: orange;
-  color: white;
-  text-decoration: none;
-}
-
-.result__detail_twitter img {
-  width: 40px;
-  height: 40px;
+  gap: 30px;
 }
 
 .favorite_button {
@@ -131,4 +25,109 @@
   align-items: center;
   width: 20px;
   height: 20px;
+}
+
+.result__box {
+  max-width: 300px;
+  width: 100%;
+  border: black 1px solid;
+}
+
+.result__menu {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  padding: 5px 10px;
+}
+
+
+.result__media {
+  height: 20px;
+  max-width: 35px;
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 5px;
+  background-color: #2589d0;
+  color: white;
+  margin-left: 5px;
+  text-align: center;
+  flex: 1;
+}
+
+.c-icon {
+  text-align: center;
+  height: 50px;
+  width: 50px;
+}
+.c-icon img {
+  width: 25px;
+  height: 25px;
+}
+
+.c-icon-text {
+  font-size: 14px;
+}
+
+.result__watchers_count.c-icon {
+  max-width: 50px;
+  margin-left: 120px;
+}
+
+.result__box {
+  border-radius: 5px;
+}
+
+.result__box p {
+  margin: 10px 0px 0px 0px;
+}
+
+.result__detail-title {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.result__image {
+  text-align: center;
+  max-width: 300px;
+  max-height: 157px;
+}
+
+.result__image img {
+  max-width: 300px;
+  max-height: 157px;
+}
+
+.result__detail {
+  padding: 0px 20px 5px;
+}
+
+.result__detail-link {
+  display: flex;
+  justify-content: space-between;
+  height: 60px;
+  align-items: center;
+  width: 200px;
+  margin: 0 auto;
+}
+
+.result__detail-url {
+  display: inline-block;
+  box-sizing: border-box;
+  height: 40px;
+  border-radius: 10px;
+  padding: 7px 10px;
+  background-color: orange;
+  color: white;
+  text-decoration: none;
+}
+
+.result__detail-twitter img {
+  width: 40px;
+  height: 40px;
+}
+
+.no-favorite {
+  text-align: center;
+  margin: 50px 0px 0px 0px;
 }
