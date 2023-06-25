@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from "react"
 import type { Anime } from "../../types/animes"
 import { useAtom } from "jotai"
-import { favoriteListAtom } from "../atoms"
+import { favoriteListAtom } from "../../lib/atoms"
 import { Tab } from "@/components/Tab"
 import React from "react"
 import { Result } from "@/components/Result"

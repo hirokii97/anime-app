@@ -1,5 +1,5 @@
 import { getFavoriteData } from "@/lib/getFavoriteData"
-import { favoriteListAtom } from "@/pages/atoms"
+import { favoriteListAtom } from "@/lib/atoms"
 import { useAtom } from "jotai"
 import { useCookieFunction } from "./useCookieFunction"
 

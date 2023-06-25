@@ -1,4 +1,4 @@
-import { favoriteListAtom } from "@/pages/atoms"
+import { favoriteListAtom } from "@/lib/atoms"
 import { Anime } from "@/types/animes"
 import { useAtom } from "jotai"
 import { useEffect } from "react"

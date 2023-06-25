@@ -11,7 +11,7 @@ import React from "react"
 import { Search } from "@/components/Search"
 import { useCookies } from "react-cookie"
 import { useAtom } from "jotai"
-import { favoriteListAtom } from "./atoms"
+import { favoriteListAtom } from "../lib/atoms"
 import { useCookieFunction } from "@/hooks/useCookieFunction"
 
 const inter = Inter({ subsets: ["latin"] })
