@@ -1,9 +1,7 @@
-import { Anime } from "@/types/animes"
-import { SetStateAction, useCallback, useEffect, useState } from "react"
-import classes from "src/components/Result/Result.module.css"
 import Image from "next/image"
+import classes from "@/components/Result/Result.module.css"
 import { useFavorite } from "@/hooks/useFavorite"
-import { useCookieFunction } from "@/hooks/useCookieFunction"
+import { Anime } from "@/types/animes"
 
 type Props = {
   animeList: Anime[]
@@ -82,7 +80,7 @@ export const Result = (props: Props) => {
                   onError={(e) => {
                     // 無限ループさせないためのnull設定
                     e.target.onError = null
-                    //　エラー時にno-img画像を指定
+                    //エラー時にno-img画像を指定
                     e.target.src = "/img/no-image.jpg"
                     return
                   }}
@@ -138,9 +136,6 @@ export const Result = (props: Props) => {
           )
         })}
       </div>
-
-      {/* CSS(styled JSXを採用) */}
-      <style jsx>{``}</style>
     </section>
   )
 }

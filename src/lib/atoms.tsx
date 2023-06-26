@@ -1,5 +1,4 @@
-import { Anime } from "@/types/animes";
-import { atom , useAtom  } from "jotai";
-import { useEffect, useState } from "react";
+import { atom } from "jotai"
+import { Anime } from "@/types/animes"
 
-export const favoriteListAtom = atom<Anime[]>([]);
+export const favoriteListAtom = atom<Anime[]>([])

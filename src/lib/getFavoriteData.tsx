@@ -1,13 +1,10 @@
-import { favoriteListAtom } from "@/lib/atoms";
-
 //お気に入りに登録した情報を取得（API送信・受信の関数）
 export const getFavoriteData = async (favoriteIdList: number[]) => {
-  
   //APIリンク
   const endpoint = "https://api.annict.com/v1/works"
 
   //APIトークン
-  const access_token = "UVol8sjtyTLqvvAtJTRageHvztFssfsdPG3AYAoPXHY"
+  const accessToken = "UVol8sjtyTLqvvAtJTRageHvztFssfsdPG3AYAoPXHY"
 
   //ソート:人気順
   const sort = "sort_watchers_count=desc"
@@ -17,7 +14,7 @@ export const getFavoriteData = async (favoriteIdList: number[]) => {
   const res = await fetch(
     `${endpoint}/?filter_ids=${
       favoriteIdList.length === 0 ? 0 : favoriteIdList
-    }&${sort}&access_token=${access_token}`,
+    }&${sort}&access_token=${accessToken}`,
   )
 
   //json形式にする

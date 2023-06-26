@@ -1,18 +1,12 @@
-import Head from "next/head"
-import Image from "next/image"
 import { Inter } from "next/font/google"
-import styles from "@/styles/Home.module.css"
-import { Tab } from "@/components/Tab"
+import React, { memo, useEffect, useState } from "react"
 import { HeadLine } from "@/components/HeadLine"
 import { Result } from "@/components/Result"
-import { useCallback, useEffect, useState } from "react"
-import { Anime } from "@/types/animes"
-import React from "react"
 import { Search } from "@/components/Search"
-import { useCookies } from "react-cookie"
-import { useAtom } from "jotai"
-import { favoriteListAtom } from "../lib/atoms"
+import { Tab } from "@/components/Tab"
 import { useCookieFunction } from "@/hooks/useCookieFunction"
+import styles from "@/styles/Home.module.css"
+import { Anime } from "@/types/animes"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -39,4 +33,4 @@ function Home() {
     </>
   )
 }
-export default React.memo(Home)
+export default memo(Home)

@@ -64,9 +64,8 @@
   max-width: 300px;
   width: 100%;
   /* border: black 1px solid; */
-  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, .5);
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.5);
   border-radius: 10px;
-  
 }
 
 .result__detail_title {

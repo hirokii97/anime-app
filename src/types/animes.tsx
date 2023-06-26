@@ -1,27 +1,26 @@
 //type
 
 export type Anime = {
-  id: number;
-  title: string;
-  official_site_url: string;
-  title_kana:string
-  media_text:string
-  season_name_text:string
-  twitter_username:string
-  twitter_hashtag:string
-  
+  id: number
+  title: string
+  episodes_count: number
   images: {
-    recommended_url: string;
     facebook: {
-      og_image_url: string;
-    };
+      og_image_url: string
+    }
+    recommended_url: string
     twitter: {
-      image_url: string;
-    };
+      image_url: string
+    }
   }
+  media_text: string
+  official_site_url: string
+  reviews_count: number
+  season_name_text: string
 
-  
-  episodes_count:number
-  watchers_count:number
-  reviews_count:number
-};
+  title_kana: string
+
+  twitter_hashtag: string
+  twitter_username: string
+  watchers_count: number
+}

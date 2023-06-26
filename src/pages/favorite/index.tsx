@@ -1,16 +1,13 @@
-import { useCallback, useEffect } from "react"
-import type { Anime } from "../../types/animes"
 import { useAtom } from "jotai"
-import { favoriteListAtom } from "../../lib/atoms"
-import { Tab } from "@/components/Tab"
-import React from "react"
+import React, { useEffect, memo } from "react"
 import { Result } from "@/components/Result"
+import { Tab } from "@/components/Tab"
 import { useCookieFunction } from "@/hooks/useCookieFunction"
-import { useCookies } from "react-cookie"
-import classes from "src/pages/favorite/favorite.module.css"
+import classes from "@/pages/favorite/favorite.module.css"
+import { favoriteListAtom } from "../../lib/atoms"
 
 function Favorite() {
-  const [favoriteList, setFavoriteList] = useAtom(favoriteListAtom)
+  const [favoriteList] = useAtom(favoriteListAtom)
   const { loadCookie } = useCookieFunction()
 
   useEffect(() => {
@@ -25,10 +22,12 @@ function Favorite() {
           <Result animeList={favoriteList} />
         </div>
       ) : (
-        <div className={classes.favorite__wrapper}>お気に入りに登録してみよう！</div>
+        <div className={classes.favorite__wrapper}>
+          お気に入りに登録してみよう！
+        </div>
       )}
       <Tab />
     </section>
   )
 }
-export default React.memo(Favorite)
+export default memo(Favorite)

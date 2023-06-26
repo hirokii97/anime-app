@@ -1,6 +1,6 @@
-import { getFavoriteData } from "@/lib/getFavoriteData"
-import { favoriteListAtom } from "@/lib/atoms"
 import { useAtom } from "jotai"
+import { favoriteListAtom } from "@/lib/atoms"
+import { getFavoriteData } from "@/lib/getFavoriteData"
 import { useCookieFunction } from "./useCookieFunction"
 
 export const useFavorite = () => {
@@ -24,7 +24,7 @@ export const useFavorite = () => {
 
   return {
     favoriteList,
-    setFavoriteList,
     handleClickFavorite,
+    setFavoriteList,
   }
 }
