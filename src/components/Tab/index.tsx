@@ -1,9 +1,10 @@
 import classNames from "classnames"
 import Image from "next/image"
 import Link from "next/link"
+import { memo } from "react"
 import classes from "@/components/Tab/Tab.module.css"
 
-export const Tab = () => {
+export const Tab = memo(() => {
   const favoriteClasses = classNames(classes.favorite, classes.navItem)
   const searchClasses = classNames(classes.search, classes.navItem)
 
@@ -25,4 +26,4 @@ export const Tab = () => {
       </Link>
     </div>
   )
-}
+})

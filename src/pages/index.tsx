@@ -10,8 +10,7 @@ import { Anime } from "@/types/animes"
 
 const inter = Inter({ subsets: ["latin"] })
 
-// export default function Home() {
-function Home() {
+export const Home = memo(() => {
   //検索した内容を’Search’から’Result’へ受け渡す
   const [animeList, setAnimeList] = useState<Anime[]>([])
   const { loadCookie } = useCookieFunction()
@@ -32,5 +31,5 @@ function Home() {
       </main>
     </>
   )
-}
-export default memo(Home)
+})
+export default (Home);

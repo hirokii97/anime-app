@@ -6,7 +6,7 @@ import { useCookieFunction } from "@/hooks/useCookieFunction"
 import classes from "@/pages/favorite/favorite.module.css"
 import { favoriteListAtom } from "../../lib/atoms"
 
-function Favorite() {
+export const Favorite = memo(() => {
   const [favoriteList] = useAtom(favoriteListAtom)
   const { loadCookie } = useCookieFunction()
 
@@ -29,5 +29,5 @@ function Favorite() {
       <Tab />
     </section>
   )
-}
-export default memo(Favorite)
+})
+export default (Favorite)

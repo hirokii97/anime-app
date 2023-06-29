@@ -1,5 +1,5 @@
 import Image from "next/image"
-import React, { useEffect, useRef, useState } from "react"
+import React, { memo, useEffect, useRef, useState } from "react"
 import classes from "@/components/Search/search.module.css"
 import { Anime } from "@/types/animes"
 
@@ -7,7 +7,7 @@ type Props = {
   setAnimeList: React.Dispatch<React.SetStateAction<Anime[]>>
 }
 
-export const Search = (props: Props) => {
+export const Search = memo((props: Props) => {
   const { setAnimeList } = props
 
   //リリース年をStateに設定
@@ -136,4 +136,4 @@ export const Search = (props: Props) => {
       </form>
     </section>
   )
-}
+})

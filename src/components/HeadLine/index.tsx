@@ -1,4 +1,6 @@
-export const HeadLine = () => {
+import { memo } from "react"
+
+export const HeadLine = memo(() => {
   return (
     <>
       <title>Watch Anime</title>
@@ -7,4 +9,4 @@ export const HeadLine = () => {
       <link rel="icon" href="/favicon.ico" />
     </>
   )
-}
+})

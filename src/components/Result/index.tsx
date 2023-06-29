@@ -1,4 +1,5 @@
 import Image from "next/image"
+import { memo } from "react"
 import classes from "@/components/Result/Result.module.css"
 import { useFavorite } from "@/hooks/useFavorite"
 import { Anime } from "@/types/animes"
@@ -16,7 +17,7 @@ declare module "react" {
   }
 }
 
-export const Result = (props: Props) => {
+export const Result = memo((props: Props) => {
   const { favoriteList, handleClickFavorite } = useFavorite()
   const { animeList } = props
 
@@ -138,4 +139,4 @@ export const Result = (props: Props) => {
       </div>
     </section>
   )
-}
+})
